@@ -20,7 +20,7 @@ namespace RentForMoment
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(options =>
+                .AddDbContext<RentForMomentDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services
@@ -34,7 +34,7 @@ namespace RentForMoment
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<RentForMomentDbContext>();
 
             services
                 .AddControllersWithViews();
