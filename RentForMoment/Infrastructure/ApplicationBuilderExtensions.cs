@@ -36,9 +36,9 @@
 
             data.Categories.AddRange(new[]
             {
-                new Category { Name = "Phisical"},
+                new Category { Name = "Physical"},
                 new Category { Name = "Mental"},
-                new Category { Name = "Phisical and Mental"}
+                new Category { Name = "Physical and Mental"}
             });
 
             data.SaveChanges();

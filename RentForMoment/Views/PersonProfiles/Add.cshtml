@@ -1,0 +1,46 @@
+﻿@model AddPersonProfile
+
+<form>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" placeholder="FirstName...">
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" placeholder="LastName...">
+    </div>
+    <div class="form-group">
+        <label asp-for="Years"></label>
+        <input asp-for="Years" class="form-control" placeholder="Years...">
+    </div>
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control" placeholder="City...">
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe yourself shortly..."></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="FieldOfWork"></label>
+        <select class="form-control" placeholder="FieldOfWork">
+            <option></option>
+            <option>Physical work</option>
+            <option>Menthal work</option>
+            <option>Physically and Mentally work</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="asd"></label>
+        <select multiple class="form-control" placeholder="FieldOfWork" >
+            <option></option>
+            <option>Physical work</option>
+            <option>Menthal work</option>
+            <option>Physically and Mentally work</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Example textarea</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+</form>

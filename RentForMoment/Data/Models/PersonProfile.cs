@@ -36,6 +36,8 @@
         [Required]
         public string City { get; set; }
 
+        public string FieldOfWork { get; init; }
+
         public int CategoryId { get; set; }
         
         public Category Category { get; set; }
