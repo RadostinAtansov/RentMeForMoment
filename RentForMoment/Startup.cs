@@ -9,6 +9,7 @@ namespace RentForMoment
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using RentForMoment.Data;
+    using RentForMoment.Infrastructure;
 
     public class Startup
     {
@@ -42,6 +43,8 @@ namespace RentForMoment
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
