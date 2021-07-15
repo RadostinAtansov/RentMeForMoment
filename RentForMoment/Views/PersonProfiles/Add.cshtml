@@ -22,25 +22,12 @@
         <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe yourself shortly..."></textarea>
     </div>
     <div class="form-group">
-        <label asp-for="FieldOfWork"></label>
-        <select class="form-control" placeholder="FieldOfWork">
-            <option></option>
+        <select class="form-control">
+            <option>FieldOfWork...</option>
             <option>Physical work</option>
             <option>Menthal work</option>
             <option>Physically and Mentally work</option>
         </select>
     </div>
-    <div class="form-group">
-        <label asp-for="asd"></label>
-        <select multiple class="form-control" placeholder="FieldOfWork" >
-            <option></option>
-            <option>Physical work</option>
-            <option>Menthal work</option>
-            <option>Physically and Mentally work</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">Example textarea</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
+    <button type="submit">Add Profile</button>
 </form>

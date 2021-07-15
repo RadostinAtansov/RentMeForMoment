@@ -23,7 +23,7 @@ namespace RentForMoment.Models.PersonProfiles
 
         public string PersonImage { get; init; }
 
-        public string FieldOfWork { get; init; }
+        public string FieldOfWork { get; set; }
 
         public int CategoryId { get; init; }
 
