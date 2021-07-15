@@ -20,10 +20,11 @@ namespace RentForMoment
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services
                 .AddDbContext<RentForMomentDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+
             services
                 .AddDatabaseDeveloperPageExceptionFilter();
 

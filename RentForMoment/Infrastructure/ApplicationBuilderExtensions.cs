@@ -5,6 +5,9 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using RentForMoment.Data;
+    using RentForMoment.Data.Models;
+    using System;
+    using System.Linq;
 
     public static class ApplicationBuilderExtensions
     {
@@ -13,15 +16,32 @@
             this IApplicationBuilder app)
         {
 
-            IServiceScope serviceScope = app.ApplicationServices.CreateScope();
-            using var scopedServices = serviceScope;
+            using var scopedServices = app.ApplicationServices.CreateScope();
 
             var data = scopedServices.ServiceProvider.GetService<RentForMomentDbContext>();
 
             data.Database.Migrate();
 
+            SeedCategories(data);
+
             return app;
         }
 
+        private static void SeedCategories(RentForMomentDbContext data)
+        {
+            if (data.Categories.Any())
+            {
+                return;
+            }
+
+            data.Categories.AddRange(new[]
+            {
+                new Category { Name = "Phisical"},
+                new Category { Name = "Mental"},
+                new Category { Name = "Phisical and Mental"}
+            });
+
+            data.SaveChanges();
+        }
     }
 }

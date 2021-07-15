@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentForMoment.Data;
 
-namespace RentForMoment.Data.Migrations
+namespace RentForMoment.Data.Migration
 {
     [DbContext(typeof(RentForMomentDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class RentForMomentDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -219,12 +219,30 @@ namespace RentForMoment.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("RentForMoment.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("RentForMoment.Data.Models.PersonProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -261,7 +279,9 @@ namespace RentForMoment.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PersonsProfiles");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("PersonProfiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -313,6 +333,22 @@ namespace RentForMoment.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RentForMoment.Data.Models.PersonProfile", b =>
+                {
+                    b.HasOne("RentForMoment.Data.Models.Category", "Category")
+                        .WithMany("PersonProfiles")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("RentForMoment.Data.Models.Category", b =>
+                {
+                    b.Navigation("PersonProfiles");
                 });
 #pragma warning restore 612, 618
         }
