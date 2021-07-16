@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
             <h2 class="heading-marging text-center">Add Profile</h2>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label asp-for="Firstname"></label>
                     <input asp-for="Firstname" class="form-control" placeholder="FirstName...">
@@ -55,6 +55,8 @@
                         }
                     </select>
                 </div>
+
+                <input type="file" name="Image"/>
 
                 <input class="btn btn-primary" type="submit" value="Save">
             </form>

@@ -1,6 +1,6 @@
 ﻿namespace RentForMoment.Controllers
 {
-
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Data;
     using RentForMoment.Data.Models;
@@ -22,7 +22,7 @@
 
         [HttpPost]
 
-        public IActionResult Add(AddPersonProfile profile)
+        public IActionResult Add(AddPersonProfile profile, IFormFile image)
         {
 
             if (!this.data.Categories.Any(c => c.Id ==  profile.CategoryId))
