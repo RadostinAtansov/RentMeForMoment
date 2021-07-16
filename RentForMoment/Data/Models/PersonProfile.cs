@@ -10,11 +10,11 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(NameLength)]
+        [MaxLength(NameMaxLength)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(NameLength)]
+        [MaxLength(NameMaxLength)]
         public string LastName { get; set; }
 
         [Required]
@@ -35,8 +35,6 @@
 
         [Required]
         public string City { get; set; }
-
-        public string FieldOfWork { get; init; }
 
         public int CategoryId { get; set; }
         
