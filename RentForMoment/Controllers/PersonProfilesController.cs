@@ -20,6 +20,27 @@
             CategoriesPerson = this.GetCategories()
         });
 
+
+        public IActionResult All()
+        {
+            var profiles = data
+                .PersonProfiles
+                .OrderByDescending(p => p.Id)
+                .Select(p => new ListingProfilesViewModel
+                {
+                    Firstname = p.FirstName,
+                    Lastname = p.LastName,
+                    Age = p.Years,
+                    City = p.City,
+                    Skills = p.Skills,
+                    Image = p.PersonImage,
+                    Description = p.Description
+                })
+                .ToList();
+
+            return View(profiles);
+        }
+
         [HttpPost]
 
         public IActionResult Add(AddPersonProfile profile, IFormFile image)
@@ -54,7 +75,7 @@
 
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
         }
 
         private IEnumerable<PersonCategory> GetCategories()
