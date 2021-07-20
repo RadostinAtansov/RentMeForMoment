@@ -7,6 +7,7 @@
     using RentForMoment.Models.PersonProfiles;
     using System.Collections.Generic;
     using System.Linq;
+    using System;
 
     public class PersonProfilesController : Controller
     {
@@ -21,10 +22,20 @@
         });
 
 
-        public IActionResult All()
+        public IActionResult All(string searchTerm)
         {
-            var profiles = data
-                .PersonProfiles
+
+            var profilesQuery = this.data.PersonProfiles.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                profilesQuery = profilesQuery.Where(c =>
+                c.FirstName.ToLower().Contains(searchTerm.ToLower()) ||
+                c.Skills.ToLower().Contains(searchTerm.ToLower()) ||
+                c.Description.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            var profiles = profilesQuery
                 .OrderByDescending(p => p.Id)
                 .Select(p => new ListingProfilesViewModel
                 {
@@ -38,7 +49,11 @@
                 })
                 .ToList();
 
-            return View(profiles);
+            return View(new AllPersonsProfileQueryModel
+            { 
+                Profiles = profiles,
+                SearchTerm = searchTerm
+            });
         }
 
         [HttpPost]

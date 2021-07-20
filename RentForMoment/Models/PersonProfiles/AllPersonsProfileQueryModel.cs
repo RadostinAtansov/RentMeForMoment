@@ -1,13 +1,15 @@
 ﻿namespace RentForMoment.Models.PersonProfiles
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
-    public class AllPersonsProfileSearchViewModel
+    public class AllPersonsProfileQueryModel
     {
 
         public IEnumerable<string> TypeWork { get; init; }
 
-        public IEnumerable<string> SearchTerm { get; init; }
+        [Display(Name = "Search")]
+        public string SearchTerm { get; init; }
 
         public IEnumerable<ProfileSorting> Sorting { get; init; }
 

@@ -1,8 +1,21 @@
-﻿@model List<ListingProfilesViewModel>
+﻿@model AllPersonsProfileQueryModel
 
+
+<form method="get">
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control mb-5" placeholder="Skills you have...">
+        </div>
+
+        <div class="form-group col-md-3">
+        <input type="submit" class="btn btn-primary d-none" placeholder="Search...">
+        </div>
+    </div>
+</form>
 
 <div class="row">
-    @foreach (var profile in Model)
+    @foreach (var profile in Model.Profiles)
     {
     <div class="col-md-4">
         <div class="card mb-3">
