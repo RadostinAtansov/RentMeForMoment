@@ -2,14 +2,42 @@
 
 
 <form method="get">
+
     <div class="row">
+
+        <div class="form-group col-md-3">
+            <label asp-for="TypeOfWork"></label>
+            <select asp-for="TypeOfWork" class="form-control">
+                <option value="">All</option>
+
+                @foreach (var TypeOfWork in Model.TypeOfWorks)
+                {
+                    <option value="@TypeOfWork">@TypeOfWork</option>
+                }
+            </select>
+        </div>
+
         <div class="form-group">
             <label asp-for="SearchTerm"></label>
             <input asp-for="SearchTerm" class="form-control mb-5" placeholder="Skills you have...">
         </div>
 
         <div class="form-group col-md-3">
-        <input type="submit" class="btn btn-primary d-none" placeholder="Search...">
+            <label asp-for="Sorting"></label>
+            <select asp-for="Sorting" class="form-control">
+                <option value="0" selected>Date Registered</option>
+                <option value="1" selected>Year</option>
+                <option value="2" selected>Skills</option>
+
+                @foreach (var TypeOfWork in Model.TypeOfWorks)
+                {
+                    <option value="@TypeOfWork">@TypeOfWork</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group col-md-3">
+            <input type="submit" class="btn btn-primary d-none" placeholder="Search...">
         </div>
     </div>
 </form>

@@ -6,13 +6,15 @@
     public class AllPersonsProfileQueryModel
     {
 
-        public IEnumerable<string> TypeWork { get; init; }
+        public string TypeOfWork { get; set ; }
+
+        public IEnumerable<string> TypeOfWorks { get; set; }
 
         [Display(Name = "Search")]
         public string SearchTerm { get; init; }
 
-        public IEnumerable<ProfileSorting> Sorting { get; init; }
+        public ProfileSorting Sorting { get; init; }
 
-        public IEnumerable<ListingProfilesViewModel> Profiles { get; init; }
+        public IEnumerable<ListingProfilesViewModel> Profiles { get; set; }
     }
 }

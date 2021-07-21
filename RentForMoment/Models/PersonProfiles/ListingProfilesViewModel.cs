@@ -20,5 +20,9 @@
         public string City { get; set; }
 
         public string Skills { get; set; }
+
+        public string Category { get; set; }
+
+        public string TypeOfWork { get; set; }
     }
 }

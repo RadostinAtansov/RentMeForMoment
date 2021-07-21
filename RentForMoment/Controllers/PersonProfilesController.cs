@@ -22,21 +22,33 @@
         });
 
 
-        public IActionResult All(string searchTerm)
+        public IActionResult All([FromQuery]AllPersonsProfileQueryModel query)
         {
 
             var profilesQuery = this.data.PersonProfiles.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (!string.IsNullOrWhiteSpace(query.TypeOfWork))
             {
-                profilesQuery = profilesQuery.Where(c =>
-                c.FirstName.ToLower().Contains(searchTerm.ToLower()) ||
-                c.Skills.ToLower().Contains(searchTerm.ToLower()) ||
-                c.Description.ToLower().Contains(searchTerm.ToLower()));
+                profilesQuery = profilesQuery.Where(t => t.Category.Name == query.TypeOfWork);
             }
 
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                profilesQuery = profilesQuery.Where(c =>
+                c.FirstName.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                c.Skills.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                c.Description.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            profilesQuery = query.Sorting switch
+            {
+                ProfileSorting.DateRegistered => profilesQuery.OrderByDescending(c => c.Id),
+                ProfileSorting.Year => profilesQuery.OrderByDescending(y => y.Years),
+                ProfileSorting.Skills => profilesQuery.OrderByDescending(s => s.Skills),
+                _ => profilesQuery.OrderByDescending(d => d.Id)
+            };
+
             var profiles = profilesQuery
-                .OrderByDescending(p => p.Id)
                 .Select(p => new ListingProfilesViewModel
                 {
                     Firstname = p.FirstName,
@@ -45,15 +57,22 @@
                     City = p.City,
                     Skills = p.Skills,
                     Image = p.PersonImage,
-                    Description = p.Description
+                    Description = p.Description,
+                    TypeOfWork = p.TypeOfWork,
+                    Category = p.Category.Name
                 })
                 .ToList();
 
-            return View(new AllPersonsProfileQueryModel
-            { 
-                Profiles = profiles,
-                SearchTerm = searchTerm
-            });
+            var profileTypeOfWork = this.data
+                .PersonProfiles
+                .Select(w => w.Category.Name)
+                .Distinct()
+                .ToList();
+
+            query.TypeOfWorks = profileTypeOfWork  ;
+            query.Profiles = profiles;
+
+            return View(query);
         }
 
         [HttpPost]
@@ -61,7 +80,7 @@
         public IActionResult Add(AddPersonProfile profile, IFormFile image)
         {
 
-            if (!this.data.Categories.Any(c => c.Id ==  profile.CategoryId))
+            if (!this.data.Categories.Any(c => c.Id == profile.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(profile.CategoryId), "Category does not exist");
             }
@@ -84,6 +103,7 @@
                 City = profile.City,
                 Description = profile.Description,
                 CategoryId = profile.CategoryId,
+                
             };
 
             this.data.PersonProfiles.Add(profileData);

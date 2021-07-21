@@ -38,6 +38,8 @@
         [Display(Name = "What Work You Can Do")]
         public int CategoryId { get; init; }
 
+        public string TypeOfWork { get; init; }
+
         public IEnumerable<PersonCategory> CategoriesPerson { get; set; }
 
     }

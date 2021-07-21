@@ -36,8 +36,10 @@
         [Required]
         public string City { get; set; }
 
+        public string TypeOfWork { get; set; }
+
         public int CategoryId { get; set; }
         
-        public Category Category { get; set; }
+        public Category Category { get; init; }
     }
 }
