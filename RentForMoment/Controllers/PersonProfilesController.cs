@@ -7,7 +7,6 @@
     using RentForMoment.Models.PersonProfiles;
     using System.Collections.Generic;
     using System.Linq;
-    using System;
 
     public class PersonProfilesController : Controller
     {
@@ -41,14 +40,17 @@
             }
 
             profilesQuery = query.Sorting switch
-            {
-                ProfileSorting.DateRegistered => profilesQuery.OrderByDescending(c => c.Id),
+            { 
                 ProfileSorting.Year => profilesQuery.OrderByDescending(y => y.Years),
                 ProfileSorting.Skills => profilesQuery.OrderByDescending(s => s.Skills),
-                _ => profilesQuery.OrderByDescending(d => d.Id)
+                ProfileSorting.DateRegistered or _ => profilesQuery.OrderByDescending(d => d.Id)
             };
 
+            var totalProfiles = profilesQuery.Count();
+
             var profiles = profilesQuery
+                .Skip((query.CurrentPage - 1) * AllPersonsProfileQueryModel.ProfilesPerPage)
+                .Take(AllPersonsProfileQueryModel.ProfilesPerPage)
                 .Select(p => new ListingProfilesViewModel
                 {
                     Firstname = p.FirstName,
@@ -69,7 +71,8 @@
                 .Distinct()
                 .ToList();
 
-            query.TypeOfWorks = profileTypeOfWork  ;
+            query.TotalProfiles = totalProfiles;
+            query.TypeOfWorks = profileTypeOfWork;
             query.Profiles = profiles;
 
             return View(query);

@@ -26,13 +26,8 @@
             <label asp-for="Sorting"></label>
             <select asp-for="Sorting" class="form-control">
                 <option value="0" selected>Date Registered</option>
-                <option value="1" selected>Year</option>
-                <option value="2" selected>Skills</option>
-
-                @foreach (var TypeOfWork in Model.TypeOfWorks)
-                {
-                    <option value="@TypeOfWork">@TypeOfWork</option>
-                }
+                <option value="1">Ages</option>
+                <option value="2">Skills</option>
             </select>
         </div>
 
@@ -41,21 +36,47 @@
         </div>
     </div>
 </form>
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalProfiles / AllPersonsProfileQueryModel.ProfilesPerPage);
+}
+<div class="row mb-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)" 
+           asp-controller="PersonProfiles" 
+           asp-action="All" 
+           asp-route-currentPage="@previousPage"
+           asp-route-TypeOfWork="@Model.TypeOfWork"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@Model.Sorting"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)" asp-controller="PersonProfiles" 
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-TypeOfWork="@Model.TypeOfWork"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@Model.Sorting">>></a>
+    </div>
+</div>
 
 <div class="row">
     @foreach (var profile in Model.Profiles)
     {
-    <div class="col-md-4">
-        <div class="card mb-3">
-            <img class="card-img-top" src="@profile.Image" alt="">
-            <div class="card-body">
-                <h5 class="card-title">@profile.Firstname @profile.Lastname @profile.Age</h5>
-                <p class="card-text">@profile.Skills</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@profile.Image" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">@profile.Firstname @profile.Lastname @profile.Age</h5>
+                    <p class="card-text">@profile.Skills</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
             </div>
         </div>
-    </div>
     }
 </div>
-
-
