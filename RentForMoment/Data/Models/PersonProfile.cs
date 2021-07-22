@@ -3,7 +3,7 @@
 
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.PersonProfileConstraint;
 
     public class PersonProfile
     {
@@ -41,5 +41,9 @@
         public int CategoryId { get; set; }
         
         public Category Category { get; init; }
+
+        public int ChiefId { get; set; }
+
+        public Chief Chief { get; init; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace RentForMoment.Data
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using RentForMoment.Data.Models;
@@ -16,6 +17,8 @@
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Chief> Chiefs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -26,6 +29,11 @@
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Chief>()
+                .HasOne<IdentityUser>()
+                .WithOne()
+                .HasForeignKey<Chief>(c => c.UserId);
 
             base.OnModelCreating(builder);
         }

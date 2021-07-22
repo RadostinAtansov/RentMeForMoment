@@ -56,7 +56,8 @@ namespace RentForMoment
                 app.UseExceptionHandler("/Home/Error")
                    .UseHsts();
             }
-            app.UseHttpsRedirection()
+            app
+                .UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()
                 .UseAuthentication()

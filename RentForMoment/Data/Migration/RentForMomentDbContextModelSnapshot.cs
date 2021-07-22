@@ -227,11 +227,46 @@ namespace RentForMoment.Data.Migration
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("RentForMoment.Data.Models.Chief", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("SearchingFor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Chiefs");
                 });
 
             modelBuilder.Entity("RentForMoment.Data.Models.PersonProfile", b =>
@@ -242,6 +277,9 @@ namespace RentForMoment.Data.Migration
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChiefId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
@@ -283,6 +321,8 @@ namespace RentForMoment.Data.Migration
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ChiefId");
 
                     b.ToTable("PersonProfiles");
                 });
@@ -338,6 +378,13 @@ namespace RentForMoment.Data.Migration
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RentForMoment.Data.Models.Chief", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("RentForMoment.Data.Models.Chief", "UserId");
+                });
+
             modelBuilder.Entity("RentForMoment.Data.Models.PersonProfile", b =>
                 {
                     b.HasOne("RentForMoment.Data.Models.Category", "Category")
@@ -346,10 +393,23 @@ namespace RentForMoment.Data.Migration
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("RentForMoment.Data.Models.Chief", "Chief")
+                        .WithMany("PersonProfiles")
+                        .HasForeignKey("ChiefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Chief");
                 });
 
             modelBuilder.Entity("RentForMoment.Data.Models.Category", b =>
+                {
+                    b.Navigation("PersonProfiles");
+                });
+
+            modelBuilder.Entity("RentForMoment.Data.Models.Chief", b =>
                 {
                     b.Navigation("PersonProfiles");
                 });
