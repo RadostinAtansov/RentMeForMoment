@@ -65,6 +65,12 @@
     </div>
 </div>
 
+
+@if (!@Model.Profiles.Any())
+{
+    <h2 class="text-center">No profiles found!</h2>
+}
+
 <div class="row">
     @foreach (var profile in Model.Profiles)
     {

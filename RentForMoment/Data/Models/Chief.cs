@@ -18,9 +18,6 @@
         [MaxLength(MaxPhoneLength)]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        public string SearchingFor { get; set; }
-
         public string UserId { get; set; }
 
         public IEnumerable<PersonProfile> PersonProfiles { get; set; } = new List<PersonProfile>();

@@ -1,12 +1,15 @@
 ﻿namespace RentForMoment.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Data;
     using RentForMoment.Data.Models;
+    using RentForMoment.Infrastructure;
     using RentForMoment.Models.PersonProfiles;
     using System.Collections.Generic;
     using System.Linq;
+
 
     public class PersonProfilesController : Controller
     {
@@ -15,13 +18,7 @@
 
         public PersonProfilesController(RentForMomentDbContext data) => this.data = data;
 
-        public IActionResult Add() => View(new AddPersonProfile
-        {
-            CategoriesPerson = this.GetCategories()
-        });
-
-
-        public IActionResult All([FromQuery]AllPersonsProfileQueryModel query)
+        public IActionResult All([FromQuery] AllPersonsProfileQueryModel query)
         {
 
             var profilesQuery = this.data.PersonProfiles.AsQueryable();
@@ -40,7 +37,7 @@
             }
 
             profilesQuery = query.Sorting switch
-            { 
+            {
                 ProfileSorting.Year => profilesQuery.OrderByDescending(y => y.Years),
                 ProfileSorting.Skills => profilesQuery.OrderByDescending(s => s.Skills),
                 ProfileSorting.DateRegistered or _ => profilesQuery.OrderByDescending(d => d.Id)
@@ -78,10 +75,53 @@
             return View(query);
         }
 
+
+        [Authorize]
+        public IActionResult Add()
+        {
+            if (!this.UserIsChief())
+            {
+                //this.TempData
+
+                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+            }
+
+            return View(new AddPersonProfile
+            {
+
+                CategoriesPerson = this.GetCategories()
+
+            });
+        }
+
         [HttpPost]
+        [Authorize]
 
         public IActionResult Add(AddPersonProfile profile, IFormFile image)
         {
+
+            var chiefsId = this.data
+                .Chiefs
+                .Where(c => c.UserId == this.User.GetId())
+                .Select(c => c.Id)
+                .FirstOrDefault();
+
+            if (chiefsId == 0)
+            {
+                if (!this.UserIsChief())
+                {
+                    return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+                }
+
+                return View(new AddPersonProfile
+                {
+
+                    CategoriesPerson = this.GetCategories()
+
+                });
+            }
+
+         
 
             if (!this.data.Categories.Any(c => c.Id == profile.CategoryId))
             {
@@ -106,7 +146,7 @@
                 City = profile.City,
                 Description = profile.Description,
                 CategoryId = profile.CategoryId,
-                
+                ChiefId = chiefsId
             };
 
             this.data.PersonProfiles.Add(profileData);
@@ -115,6 +155,12 @@
 
             return RedirectToAction(nameof(All));
         }
+
+
+        private bool UserIsChief()
+         => this.data
+                .Chiefs
+                .Any(c => c.UserId == this.User.GetId());
 
         private IEnumerable<PersonCategory> GetCategories()
             => this.data

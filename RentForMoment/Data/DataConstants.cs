@@ -24,7 +24,9 @@
 
         public class ChiefConstraint
         {
+            public const int MinLengthName = 2;
             public const int MaxLengthName = 25;
+            public const int MinPhoneLength = 10;
             public const int MaxPhoneLength = 30;
         }
     }

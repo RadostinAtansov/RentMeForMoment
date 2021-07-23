@@ -1,0 +1,27 @@
+﻿@model BecomeChiefViewModel
+
+@{
+    ViewData["Tittle"] = "Become Chief";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+            <h2 class="heading-marging text-center">Become Chief</h2>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Name...">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="PhoneNumber...">
+                    <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+</div>
