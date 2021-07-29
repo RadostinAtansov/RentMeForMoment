@@ -64,16 +64,33 @@
         </a>
 </div>
 
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-4 text-center">
-            <h2>@Model.TotalProfiles Profiles</h2>
-        </div>
-        <div class="col-md-4 text-center">
-            <h2>@Model.TotalUsers Users</h2>
-        </div>
-        <div class="col-md-4 text-center">
-            <h2>@Model.TotalRentForWork RentedForWork</h2>
-        </div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
     </div>
 </div>
+
+<div class="jumbotron d-none" id="statistics">
+    <div class="row">
+        <h2 class="col-md-4 text-center" id="total-profiles"></h2>
+        <h2 class="col-md-4 text-center" id="total-users"></h2>
+        <h2 class="col-md-4 text-center" id="total-rents"></h2>
+    </div>
+</div>
+
+
+@section Scripts{ 
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('api/statistics', (data) => {
+                $('#total-profiles').text(data.totalProfiles + " Profiles");
+                $('#total-users').text(data.totalUsers + " Users");
+                $('#total-rents').text(data.totalRentForWork + " RentWorkers");
+
+                $('#statistics').removeClass('d-none');
+                $('#statistics-button').hide();
+            })
+        });
+    </script>
+}

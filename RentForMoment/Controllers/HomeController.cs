@@ -21,6 +21,7 @@
         {
 
             var TotalProfiles = this.data.PersonProfiles.Count();
+            var TotalUsers = this.data.Users.Count();
 
             var profiles = data
                  .PersonProfiles
