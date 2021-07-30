@@ -10,6 +10,8 @@ namespace RentForMoment
     using Microsoft.Extensions.Hosting;
     using RentForMoment.Data;
     using RentForMoment.Infrastructure;
+    using RentForMoment.Services.PersonProfiles;
+    using RentForMoment.Services.Statistics;
 
     public class Startup
     {
@@ -40,6 +42,9 @@ namespace RentForMoment
 
             services
                 .AddControllersWithViews();
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IPersonProfilesService, PersonProfilesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

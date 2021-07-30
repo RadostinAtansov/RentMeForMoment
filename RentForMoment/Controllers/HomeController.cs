@@ -5,17 +5,21 @@
     using RentForMoment.Data;
     using RentForMoment.Models;
     using RentForMoment.Models.Home;
+    using RentForMoment.Services.Statistics;
     using System.Diagnostics;
     using System.Linq;
 
     public class HomeController : Controller
     {
         private readonly RentForMomentDbContext data;
+        private readonly IStatisticsService statistics;
 
-        
 
-        public HomeController(RentForMomentDbContext data)
-            => this.data = data;
+        public HomeController(IStatisticsService statistics, RentForMomentDbContext data)
+        {
+            this.statistics = statistics;   
+            this.data = data;
+        }
 
         public IActionResult Index()
         {
@@ -39,9 +43,12 @@
                  .Take(3)
                  .ToList();
 
+            var totalStatistics = this.statistics.Total();
+
             return View(new IndexViewModel
             {
-                TotalProfiles = TotalProfiles,
+                TotalProfiles = totalStatistics.TotalProfiles,
+                TotalUsers = totalStatistics.TotalUsers,
                 Profiles = profiles
             });
 

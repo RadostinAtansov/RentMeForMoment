@@ -1,9 +1,9 @@
-﻿namespace RentForMoment.Models.Api
+﻿namespace RentForMoment.Services.Statistics
 {
 
 
 
-    public class StatisticsResponseModel
+    public class StatisticsServiceModel
     {
         public int TotalProfiles { get; init; }
 

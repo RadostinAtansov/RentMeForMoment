@@ -1,8 +1,7 @@
 ﻿namespace RentForMoment.Models.Home
 {
-    using RentForMoment.Models.PersonProfiles;
+  
     using System.Collections.Generic;
-
 
     public class IndexViewModel
     {

@@ -6,71 +6,43 @@
     using RentForMoment.Data;
     using RentForMoment.Data.Models;
     using RentForMoment.Infrastructure;
+    using RentForMoment.Models;
     using RentForMoment.Models.PersonProfiles;
+    using RentForMoment.Services.PersonProfiles;
     using System.Collections.Generic;
     using System.Linq;
 
 
     public class PersonProfilesController : Controller
     {
-
+        private readonly IPersonProfilesService profiles;
         private readonly RentForMomentDbContext data;
 
-        public PersonProfilesController(RentForMomentDbContext data) => this.data = data;
+        public PersonProfilesController(
+            IPersonProfilesService profiles,
+            RentForMomentDbContext data)
+        {
+            this.profiles = profiles;
+            this.data = data;
+        }
 
         public IActionResult All([FromQuery] AllPersonsProfileQueryModel query)
         {
 
-            var profilesQuery = this.data.PersonProfiles.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(query.TypeOfWork))
-            {
-                profilesQuery = profilesQuery.Where(t => t.Category.Name == query.TypeOfWork);
-            }
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                profilesQuery = profilesQuery.Where(c =>
-                c.FirstName.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                c.Skills.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                c.Description.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
+            var queryResult = this.profiles.All(
+                query.TypeOfWork,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllPersonsProfileQueryModel.ProfilesPerPage);
 
-            profilesQuery = query.Sorting switch
-            {
-                ProfileSorting.Year => profilesQuery.OrderByDescending(y => y.Years),
-                ProfileSorting.Skills => profilesQuery.OrderByDescending(s => s.Skills),
-                ProfileSorting.DateRegistered or _ => profilesQuery.OrderByDescending(d => d.Id)
-            };
+            var profileTypeOfWork = this.profiles.AllProfilesTypeOfWOrk();
 
-            var totalProfiles = profilesQuery.Count();
-
-            var profiles = profilesQuery
-                .Skip((query.CurrentPage - 1) * AllPersonsProfileQueryModel.ProfilesPerPage)
-                .Take(AllPersonsProfileQueryModel.ProfilesPerPage)
-                .Select(p => new ListingProfilesViewModel
-                {
-                    Firstname = p.FirstName,
-                    Lastname = p.LastName,
-                    Age = p.Years,
-                    City = p.City,
-                    Skills = p.Skills,
-                    Image = p.PersonImage,
-                    Description = p.Description,
-                    TypeOfWork = p.TypeOfWork,
-                    Category = p.Category.Name
-                })
-                .ToList();
-
-            var profileTypeOfWork = this.data
-                .PersonProfiles
-                .Select(w => w.Category.Name)
-                .Distinct()
-                .ToList();
-
-            query.TotalProfiles = totalProfiles;
             query.TypeOfWorks = profileTypeOfWork;
-            query.Profiles = profiles;
+            query.TotalProfiles = queryResult.TotalProfiles;
+            query.Profiles = queryResult.Profiles;
 
             return View(query);
         }

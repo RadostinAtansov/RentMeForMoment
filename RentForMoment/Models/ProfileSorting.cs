@@ -1,4 +1,4 @@
-﻿namespace RentForMoment.Models.PersonProfiles
+﻿namespace RentForMoment.Models
 {
     public enum ProfileSorting
     {

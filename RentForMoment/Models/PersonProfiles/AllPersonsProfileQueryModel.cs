@@ -1,5 +1,6 @@
 ﻿namespace RentForMoment.Models.PersonProfiles
 {
+    using RentForMoment.Services.PersonProfiles;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,8 +11,6 @@
 
         public string TypeOfWork { get; set ; }
 
-        public IEnumerable<string> TypeOfWorks { get; set; }
-
         [Display(Name = "Search by text...")]
         public string SearchTerm { get; init; }
 
@@ -21,6 +20,8 @@
 
         public int TotalProfiles { get; set; }
 
-        public IEnumerable<ListingProfilesViewModel> Profiles { get; set; }
+        public IEnumerable<string> TypeOfWorks { get; set; }
+
+        public IEnumerable<PersonProfilesServicesModel> Profiles { get; set; }
     }
 }

@@ -1,10 +1,8 @@
-﻿namespace RentForMoment.Models.PersonProfiles
+﻿namespace RentForMoment.Services.PersonProfiles
 {
-
-
-
-    public class ListingProfilesViewModel
+    public class PersonProfilesServicesModel
     {
+
         public int Id { get; set; }
 
         public string Image { get; set; }
@@ -24,5 +22,6 @@
         public string Category { get; set; }
 
         public string TypeOfWork { get; set; }
+
     }
 }
