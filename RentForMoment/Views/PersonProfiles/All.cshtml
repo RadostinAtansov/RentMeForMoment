@@ -71,18 +71,4 @@
     <h2 class="text-center">No profiles found!</h2>
 }
 
-<div class="row">
-    @foreach (var profile in Model.Profiles)
-    {
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <img class="card-img-top" src="@profile.Image" alt="">
-                <div class="card-body">
-                    <h5 class="card-title">@profile.Firstname @profile.Lastname @profile.Age</h5>
-                    <p class="card-text">@profile.Skills</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
+<partial name="_PersonProfilePartial" model="@Model.Profiles"/>

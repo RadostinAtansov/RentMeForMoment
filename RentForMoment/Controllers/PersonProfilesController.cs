@@ -6,7 +6,6 @@
     using RentForMoment.Data;
     using RentForMoment.Data.Models;
     using RentForMoment.Infrastructure;
-    using RentForMoment.Models;
     using RentForMoment.Models.PersonProfiles;
     using RentForMoment.Services.PersonProfiles;
     using System.Collections.Generic;
@@ -29,8 +28,6 @@
         public IActionResult All([FromQuery] AllPersonsProfileQueryModel query)
         {
 
-
-
             var queryResult = this.profiles.All(
                 query.TypeOfWork,
                 query.SearchTerm,
@@ -40,6 +37,7 @@
 
             var profileTypeOfWork = this.profiles.AllProfilesTypeOfWOrk();
 
+
             query.TypeOfWorks = profileTypeOfWork;
             query.TotalProfiles = queryResult.TotalProfiles;
             query.Profiles = queryResult.Profiles;
@@ -47,6 +45,13 @@
             return View(query);
         }
 
+        [Authorize]
+        public IActionResult Mine()
+        {
+            var myProfile = this.profiles.ByUser(this.User.GetId());
+
+            return View(myProfile);
+        }
 
         [Authorize]
         public IActionResult Add()
@@ -118,7 +123,8 @@
                 City = profile.City,
                 Description = profile.Description,
                 CategoryId = profile.CategoryId,
-                ChiefId = chiefsId
+                ChiefId = chiefsId,
+                TypeOfWork = profile.TypeOfWork
             };
 
             this.data.PersonProfiles.Add(profileData);

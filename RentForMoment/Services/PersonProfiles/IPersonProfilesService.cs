@@ -12,6 +12,8 @@
             int currentPage,
             int profilesPerPage);
 
+        IEnumerable<PersonProfilesServicesModel> ByUser(string userId);
+
         IEnumerable<string> AllProfilesTypeOfWOrk();
     }
 }

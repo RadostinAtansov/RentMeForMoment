@@ -1,0 +1,12 @@
+﻿@model IEnumerable<PersonProfilesServicesModel>
+
+@{
+    ViewBag.Title = "My Profiles";
+}
+
+@if (!@Model.Any())
+{
+    <h2 class="text-center">No profiles found!</h2>
+}
+
+<partial name="_PersonProfilePartial" model="@Model"/>

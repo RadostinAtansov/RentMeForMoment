@@ -7,7 +7,7 @@
     public class AllPersonsProfileQueryModel
     {
 
-        public const int ProfilesPerPage = 4;
+        public const int ProfilesPerPage = 3;
 
         public string TypeOfWork { get; set ; }
 

@@ -1,6 +1,4 @@
-﻿using RentForMoment.Data;
-
-namespace RentForMoment.Services.PersonProfiles
+﻿namespace RentForMoment.Services.PersonProfiles
 {
 
     using RentForMoment.Data;
@@ -50,36 +48,47 @@ namespace RentForMoment.Services.PersonProfiles
 
             var totalProfiles = profilesQuery.Count();
 
-            var profiles = profilesQuery
+            var profiles = GetProfiles(profilesQuery
                 .Skip((currentPage - 1) * profilesPerPage)
-                .Take(profilesPerPage)
-                .Select(p => new PersonProfilesServicesModel
-                {
-                    Firstname = p.FirstName,
-                    Lastname = p.LastName,
-                    Age = p.Years,
-                    City = p.City,
-                    Skills = p.Skills,
-                    Image = p.PersonImage,
-                    Description = p.Description,
-                    TypeOfWork = p.TypeOfWork,
-                    Category = p.Category.Name
-                })
-                .ToList();
+                .Take(profilesPerPage));
+
 
             return new PersonProfilesQueryServiceModel
             {
                 TotalProfiles = totalProfiles,
                 CurrentPage = currentPage,
-                
+                Profiles = profiles
             };
         }
+
+
+        public IEnumerable<PersonProfilesServicesModel> ByUser(string userId)
+            => GetProfiles(this.data
+                .PersonProfiles
+                .Where(c => c.Chief.UserId == userId));
 
         public IEnumerable<string> AllProfilesTypeOfWOrk()
              => this.data
                 .PersonProfiles
                 .Select(w => w.Category.Name)
                 .Distinct()
+                .ToList();
+
+
+        private static IEnumerable<PersonProfilesServicesModel> GetProfiles(IQueryable<PersonProfile> personProfileQuery)
+            => personProfileQuery
+            .Select(p => new PersonProfilesServicesModel
+            {
+                Firstname = p.FirstName,
+                Lastname = p.LastName,
+                Age = p.Years,
+                City = p.City,
+                Skills = p.Skills,
+                Image = p.PersonImage,
+                Description = p.Description,
+                TypeOfWork = p.TypeOfWork,
+                Category = p.Category.Name
+            })
                 .ToList();
     }
 }

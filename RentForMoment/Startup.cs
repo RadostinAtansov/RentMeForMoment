@@ -4,6 +4,7 @@ namespace RentForMoment
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ namespace RentForMoment
     using RentForMoment.Data;
     using RentForMoment.Infrastructure;
     using RentForMoment.Services.PersonProfiles;
+    using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.Statistics;
 
     public class Startup
@@ -26,13 +28,11 @@ namespace RentForMoment
             services
                 .AddDbContext<RentForMomentDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services
-                .AddDatabaseDeveloperPageExceptionFilter();
-
-            services
-                .AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<IdentityUser>(options =>
                 {
+                    options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
@@ -40,11 +40,17 @@ namespace RentForMoment
                 })
                 .AddEntityFrameworkStores<RentForMomentDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services
-                .AddControllersWithViews();
+                .AddControllersWithViews(option => 
+                {
+                    option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                });
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IPersonProfilesService, PersonProfilesService>();
+            services.AddTransient<IChiefsService, ChiefsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
