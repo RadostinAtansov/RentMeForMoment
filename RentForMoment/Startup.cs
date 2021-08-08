@@ -49,8 +49,8 @@ namespace RentForMoment
                 });
 
             services.AddTransient<IStatisticsService, StatisticsService>();
-            services.AddTransient<IPersonProfilesService, PersonProfilesService>();
             services.AddTransient<IChiefsService, ChiefsService>();
+            services.AddTransient<IPersonProfilesService, PersonProfilesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

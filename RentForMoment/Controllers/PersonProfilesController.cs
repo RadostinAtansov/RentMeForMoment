@@ -1,28 +1,28 @@
 ﻿namespace RentForMoment.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Data;
-    using RentForMoment.Data.Models;
     using RentForMoment.Infrastructure;
     using RentForMoment.Models.PersonProfiles;
+    using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.PersonProfiles;
-    using System.Collections.Generic;
-    using System.Linq;
-
+    using RentForMoment.Data.Models;
 
     public class PersonProfilesController : Controller
     {
         private readonly IPersonProfilesService profiles;
+        private readonly IChiefsService chiefs;
         private readonly RentForMomentDbContext data;
 
         public PersonProfilesController(
             IPersonProfilesService profiles,
+            IChiefsService chiefs,
             RentForMomentDbContext data)
         {
             this.profiles = profiles;
             this.data = data;
+            this.chiefs = chiefs;
         }
 
         public IActionResult All([FromQuery] AllPersonsProfileQueryModel query)
@@ -45,6 +45,7 @@
             return View(query);
         }
 
+
         [Authorize]
         public IActionResult Mine()
         {
@@ -53,20 +54,20 @@
             return View(myProfile);
         }
 
+
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsChief())
+            if (!this.chiefs.IsChief(this.User.GetId()))
             {
-                //this.TempData
 
                 return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
             }
 
-            return View(new AddPersonProfile
+            return base.View(new Models.PersonProfiles.PersonProfileFormModel
             {
 
-                CategoriesPerson = this.GetCategories()
+                CategoriesPerson = this.profiles.AllPersonProfilesCategory()
 
             });
         }
@@ -74,33 +75,19 @@
         [HttpPost]
         [Authorize]
 
-        public IActionResult Add(AddPersonProfile profile, IFormFile image)
+        public IActionResult Add(PersonProfileFormModel profile)
         {
 
-            var chiefsId = this.data
-                .Chiefs
-                .Where(c => c.UserId == this.User.GetId())
-                .Select(c => c.Id)
-                .FirstOrDefault();
+            var chiefsId = this.chiefs.GetIdByUser(this.User.GetId());
 
             if (chiefsId == 0)
             {
-                if (!this.UserIsChief())
-                {
-                    return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
-                }
 
-                return View(new AddPersonProfile
-                {
+                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
 
-                    CategoriesPerson = this.GetCategories()
-
-                });
             }
 
-         
-
-            if (!this.data.Categories.Any(c => c.Id == profile.CategoryId))
+            if (!this.profiles.CategoryExists(profile.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(profile.CategoryId), "Category does not exist");
             }
@@ -108,47 +95,104 @@
             if (!ModelState.IsValid)
             {
 
-                profile.CategoriesPerson = this.GetCategories();
+                profile.CategoriesPerson = this.profiles.AllPersonProfilesCategory();
 
                 return View(profile);
             }
 
-            var profileData = new PersonProfile
-            {
-                FirstName = profile.Firstname,
-                LastName = profile.Lastname,
-                Years = profile.Years,
-                PersonImage = profile.PersonImage,
-                Skills = profile.Skills,
-                City = profile.City,
-                Description = profile.Description,
-                CategoryId = profile.CategoryId,
-                ChiefId = chiefsId,
-                TypeOfWork = profile.TypeOfWork
-            };
-
-            this.data.PersonProfiles.Add(profileData);
-
-            this.data.SaveChanges();
+            this.profiles.Create(profile.Firstname,
+                profile.Lastname,
+                profile.Years,
+                profile.PersonImage,
+                profile.Skills,
+                profile.City,
+                profile.Description,
+                profile.CategoryId,
+                profile.CategoryId,
+                profile.TypeOfWork);
 
             return RedirectToAction(nameof(All));
         }
 
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var userId = this.User.GetId();
 
-        private bool UserIsChief()
-         => this.data
-                .Chiefs
-                .Any(c => c.UserId == this.User.GetId());
-
-        private IEnumerable<PersonCategory> GetCategories()
-            => this.data
-            .Categories
-            .Select(p => new PersonCategory
+            if (!this.chiefs.IsChief(userId))
             {
-                Id = p.Id,
-                Name = p.Name
-            })
-            .ToList();
+                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+            }
+
+            var profiles = this.profiles.Details(id);
+
+            if (profiles.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+
+            return View(new PersonProfileFormModel
+            {
+                Firstname = profiles.Firstname,
+                Lastname = profiles.Lastname,
+                Years = profiles.Age,
+                City = profiles.City,
+                Description = profiles.Description,
+                Skills = profiles.Skills,
+                PersonImage = profiles.Image,
+                TypeOfWork = profiles.TypeOfWorkName,
+                CategoryId = profiles.CategoryId,
+                 CategoriesPerson = this.profiles.AllPersonProfilesCategory()
+            }) ;
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id, PersonProfileFormModel profile)
+        {
+            var chiefsId = this.chiefs.GetIdByUser(this.User.GetId());
+
+            if (chiefsId == 0)
+            {
+
+                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+
+            }
+
+            if (!this.profiles.CategoryExists(profile.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(profile.CategoryId), "Category does not exist");
+            }
+
+            if (!ModelState.IsValid)
+            {
+
+                profile.CategoriesPerson = this.profiles.AllPersonProfilesCategory();
+
+                return View(profile);
+            }
+
+            if (!this.profiles.IsChiefs(id, chiefsId))
+            {
+                return BadRequest();
+            }
+
+           this.profiles.Edit(
+                id,
+                profile.Firstname,
+                profile.Lastname,
+                profile.Years,
+                profile.PersonImage,
+                profile.Skills,
+                profile.City,
+                profile.Description,
+                profile.TypeOfWork);
+
+            return RedirectToAction(nameof(All));
+
+        }
 
     }
 }

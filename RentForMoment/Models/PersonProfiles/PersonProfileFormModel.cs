@@ -1,11 +1,11 @@
 ﻿namespace RentForMoment.Models.PersonProfiles
 {
-
+    using RentForMoment.Services.PersonProfiles;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Data.DataConstants.PersonProfileConstraint;
 
-    public class AddPersonProfile
+    public class PersonProfileFormModel
     {
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength, ErrorMessage = "nai-malko 5 bukvi - naj-mnogo 20")]
@@ -40,7 +40,7 @@
 
         public string TypeOfWork { get; init; }
 
-        public IEnumerable<PersonCategory> CategoriesPerson { get; set; }
+        public IEnumerable<PersonServiceCategoryModel> CategoriesPerson { get; set; }
 
     }
 }

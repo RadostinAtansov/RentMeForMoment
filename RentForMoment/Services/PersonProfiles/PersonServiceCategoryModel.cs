@@ -1,7 +1,7 @@
-﻿namespace RentForMoment.Models.PersonProfiles
+﻿namespace RentForMoment.Services.PersonProfiles
 {
 
-    public class PersonCategory
+    public class PersonServiceCategoryModel
     {
         public int Id { get; init; }
 

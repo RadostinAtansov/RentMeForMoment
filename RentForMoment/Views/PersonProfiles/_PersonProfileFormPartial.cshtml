@@ -1,0 +1,60 @@
+﻿@model PersonProfileFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
+            <h2 class="heading-marging text-center">Add Profile</h2>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Firstname"></label>
+                    <input asp-for="Firstname" class="form-control" placeholder="FirstName...">
+                    <span asp-validation-for="Firstname" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lastname"></label>
+                    <input asp-for="Lastname" class="form-control" placeholder="LastName...">
+                    <span asp-validation-for="Lastname" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Years"></label>
+                    <input asp-for="Years" class="form-control" placeholder="Years...">
+                    <span asp-validation-for="Years" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City"></label>
+                    <input asp-for="City" class="form-control" placeholder="City...">
+                    <span asp-validation-for="City" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe yourself shortly..."></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Skills"></label>
+                    <input asp-for="Skills" class="form-control" placeholder="Skills you have...">
+                    <span asp-validation-for="Skills" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PersonImage"></label>
+                    <input asp-for="PersonImage" class="form-control" placeholder="Put link to your image...">
+                    <span asp-validation-for="PersonImage" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var category in Model.CategoriesPerson)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="small text-danger"></span>
+                </div>
+
+                <input type="file" name="Image" />
+
+                <input class="btn btn-primary" type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+</div>

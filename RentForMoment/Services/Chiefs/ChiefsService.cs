@@ -1,7 +1,7 @@
 ﻿namespace RentForMoment.Services.Chiefs
 {
-    using RentForMoment.Data;
     using System.Linq;
+    using RentForMoment.Data;
 
     public class ChiefsService : IChiefsService
     {
@@ -11,7 +11,14 @@
         public ChiefsService(RentForMomentDbContext data)
             => this.data = data;
 
-        public bool IsChief(string userId)
+        public int GetIdByUser(string userId)
+        =>this.data
+             .Chiefs
+             .Where(c => c.UserId == userId)
+             .Select(c => c.Id)
+             .FirstOrDefault();
+
+            public bool IsChief(string userId)
         => this.data
             .Chiefs
             .Any(c => c.UserId == userId);
