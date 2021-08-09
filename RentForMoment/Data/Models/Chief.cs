@@ -20,6 +20,8 @@
 
         public string UserId { get; set; }
 
+        public User User { get; set; }
+
         public IEnumerable<PersonProfile> PersonProfiles { get; init; } = new List<PersonProfile>();
     }
 }

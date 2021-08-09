@@ -14,6 +14,7 @@ namespace RentForMoment
     using RentForMoment.Services.PersonProfiles;
     using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.Statistics;
+    using RentForMoment.Data.Models;
 
     public class Startup
     {
@@ -30,7 +31,7 @@ namespace RentForMoment
                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<User>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireDigit = false;
@@ -38,6 +39,7 @@ namespace RentForMoment
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<RentForMomentDbContext>();
 
             services.AddAutoMapper(typeof(Startup));

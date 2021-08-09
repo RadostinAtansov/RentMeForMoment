@@ -1,8 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using RentForMoment.Data.Models
+@using Microsoft.AspNetCore.Identity
 @using RentForMoment.Services.Chiefs
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IChiefsService Chiefs
 
 <ul class="navbar-nav">

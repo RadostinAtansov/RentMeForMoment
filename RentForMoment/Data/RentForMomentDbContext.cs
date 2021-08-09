@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using RentForMoment.Data.Models;
 
-    public class RentForMomentDbContext : IdentityDbContext
+    public class RentForMomentDbContext : IdentityDbContext<User>
     {
 
         public RentForMomentDbContext(DbContextOptions<RentForMomentDbContext> options)
@@ -31,9 +31,10 @@
 
             builder
                 .Entity<Chief>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
-                .HasForeignKey<Chief>(c => c.UserId);
+                .HasForeignKey<Chief>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

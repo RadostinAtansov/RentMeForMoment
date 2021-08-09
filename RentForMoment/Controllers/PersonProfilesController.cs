@@ -58,13 +58,13 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.chiefs.IsChief(this.User.GetId()))
+            if (this.chiefs.IsChief(this.User.GetId()))
             {
 
                 return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
             }
 
-            return base.View(new Models.PersonProfiles.PersonProfileFormModel
+            return base.View(new PersonProfileFormModel
             {
 
                 CategoriesPerson = this.profiles.AllPersonProfilesCategory()

@@ -5,11 +5,14 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using RentForMoment.Data;
 
     [DbContext(typeof(RentForMomentDbContext))]
-    partial class RentForMomentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210809091528_UserFullNameColumn")]
+    partial class UserFullNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
