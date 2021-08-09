@@ -1,6 +1,7 @@
 ﻿namespace RentForMoment.Models.PersonProfiles
 {
     using RentForMoment.Services.PersonProfiles;
+    using RentForMoment.Services.PersonProfiles.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 

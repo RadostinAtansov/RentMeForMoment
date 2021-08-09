@@ -1,6 +1,7 @@
 ﻿namespace RentForMoment.Controllers
 {
-
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Data;
     using RentForMoment.Models;
@@ -13,10 +14,13 @@
     {
         private readonly RentForMomentDbContext data;
         private readonly IStatisticsService statistics;
+        private readonly IConfigurationProvider mapper;
 
-
-        public HomeController(IStatisticsService statistics, RentForMomentDbContext data)
+        public HomeController(IStatisticsService statistics, 
+            RentForMomentDbContext data,
+            IMapper mapper)
         {
+            this.mapper = mapper.ConfigurationProvider;
             this.statistics = statistics;   
             this.data = data;
         }
@@ -30,16 +34,7 @@
             var profiles = data
                  .PersonProfiles
                  .OrderByDescending(p => p.Id)
-                 .Select(p => new ProfileIndexViewModel
-                 {
-                     Firstname = p.FirstName,
-                     Lastname = p.LastName,
-                     Age = p.Years,
-                     City = p.City,
-                     Skills = p.Skills,
-                     Image = p.PersonImage,
-                     Description = p.Description
-                 })
+                 .ProjectTo<ProfileIndexViewModel>(this.mapper)
                  .Take(3)
                  .ToList();
 

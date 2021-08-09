@@ -1,9 +1,11 @@
 ﻿namespace RentForMoment.Services.PersonProfiles
 {
-
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using RentForMoment.Data;
     using RentForMoment.Data.Models;
     using RentForMoment.Models;
+    using RentForMoment.Services.PersonProfiles.Models;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -11,9 +13,12 @@
     {
 
         private readonly RentForMomentDbContext data;
+        private readonly IConfigurationProvider mapper;
 
-        public PersonProfilesService(RentForMomentDbContext data)
+        public PersonProfilesService(RentForMomentDbContext data, 
+            IMapper mapper)
         {
+            this.mapper = mapper.ConfigurationProvider;
             this.data = data;
         }
 
@@ -65,23 +70,7 @@
             => this.data
             .PersonProfiles
             .Where(p => p.Id == id)
-            .Select(p => new PersonProfileDetailsServiceModel
-            {
-                Id = p.Id,
-                Firstname = p.FirstName,
-                Lastname = p.LastName,
-                Age = p.Years,
-                City = p.City,
-                Skills = p.Skills,
-                Image = p.PersonImage,
-                Description = p.Description,
-                TypeOfWorkName = p.TypeOfWork,
-                Category = p.Category.Name,
-                ChiefsId = p.ChiefId,
-                ChiefsName = p.Chief.Name,
-                UserId = p.Chief.UserId,
-                CategoryId = p.CategoryId
-            })
+            .ProjectTo<PersonProfileDetailsServiceModel>(this.mapper)
             .FirstOrDefault();
 
         public IEnumerable<PersonProfilesServicesModel> ByUser(string userId)

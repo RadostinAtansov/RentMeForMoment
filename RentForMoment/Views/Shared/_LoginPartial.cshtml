@@ -12,14 +12,15 @@
 
         var userId = User.GetId();
         var userIdChief = Chiefs.IsChief(userId);
+        var userIsAdmin = User.IsAdmin();
 
-        @if (userIdChief)
+        @if (userIdChief && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Mine">My Profiles</a>
             </li>
         }
-        else
+        else if(!userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Chiefs" asp-action="Create">Chief</a>

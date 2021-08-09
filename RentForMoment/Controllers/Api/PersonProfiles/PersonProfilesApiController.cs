@@ -8,6 +8,7 @@
     using RentForMoment.Models.Api.PersonProfiles;
     using RentForMoment.Models;
     using RentForMoment.Services.PersonProfiles;
+    using RentForMoment.Services.PersonProfiles.Models;
 
     //using RentForMoment.Models.PersonProfiles;
 

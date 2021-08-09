@@ -1,6 +1,7 @@
 ﻿namespace RentForMoment.Services.PersonProfiles
 {
     using RentForMoment.Models;
+    using RentForMoment.Services.PersonProfiles.Models;
     using System.Collections.Generic;
 
     public interface IPersonProfilesService

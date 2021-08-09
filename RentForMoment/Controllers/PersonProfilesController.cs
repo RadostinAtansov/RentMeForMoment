@@ -1,5 +1,6 @@
 ﻿namespace RentForMoment.Controllers
 {
+    using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Data;
@@ -7,21 +8,21 @@
     using RentForMoment.Models.PersonProfiles;
     using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.PersonProfiles;
-    using RentForMoment.Data.Models;
 
     public class PersonProfilesController : Controller
     {
         private readonly IPersonProfilesService profiles;
         private readonly IChiefsService chiefs;
-        private readonly RentForMomentDbContext data;
+        private readonly IMapper mapper;
+
 
         public PersonProfilesController(
             IPersonProfilesService profiles,
             IChiefsService chiefs,
-            RentForMomentDbContext data)
+            IMapper mapper)
         {
             this.profiles = profiles;
-            this.data = data;
+            this.mapper = mapper;
             this.chiefs = chiefs;
         }
 
@@ -58,13 +59,13 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (this.chiefs.IsChief(this.User.GetId()))
-            {
+            //if (!this.chiefs.IsChief(this.User.GetId()))
+            //{
 
-                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
-            }
+            //    return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+            //}
 
-            return base.View(new PersonProfileFormModel
+            return View(new PersonProfileFormModel
             {
 
                 CategoriesPerson = this.profiles.AllPersonProfilesCategory()
@@ -80,12 +81,12 @@
 
             var chiefsId = this.chiefs.GetIdByUser(this.User.GetId());
 
-            if (chiefsId == 0)
-            {
+            //if (chiefsId == 0)
+            //{
 
-                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+            //    return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
 
-            }
+            //}
 
             if (!this.profiles.CategoryExists(profile.CategoryId))
             {
@@ -119,32 +120,23 @@
         {
             var userId = this.User.GetId();
 
-            if (!this.chiefs.IsChief(userId))
+            if (!this.chiefs.IsChief(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
             }
 
             var profiles = this.profiles.Details(id);
 
-            if (profiles.UserId != userId)
+            if (profiles.UserId != userId && !User.IsAdmin())
             {
                 return Unauthorized();
             }
 
+            var profileForm = this.mapper.Map<PersonProfileFormModel>(profiles);
 
-            return View(new PersonProfileFormModel
-            {
-                Firstname = profiles.Firstname,
-                Lastname = profiles.Lastname,
-                Years = profiles.Age,
-                City = profiles.City,
-                Description = profiles.Description,
-                Skills = profiles.Skills,
-                PersonImage = profiles.Image,
-                TypeOfWork = profiles.TypeOfWorkName,
-                CategoryId = profiles.CategoryId,
-                 CategoriesPerson = this.profiles.AllPersonProfilesCategory()
-            }) ;
+            profileForm.CategoriesPerson = this.profiles.AllPersonProfilesCategory(); 
+
+            return View(profileForm);
 
         }
 
@@ -154,7 +146,7 @@
         {
             var chiefsId = this.chiefs.GetIdByUser(this.User.GetId());
 
-            if (chiefsId == 0)
+            if (chiefsId == 0 && !User.IsAdmin())
             {
 
                 return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
@@ -174,7 +166,7 @@
                 return View(profile);
             }
 
-            if (!this.profiles.IsChiefs(id, chiefsId))
+            if (!this.profiles.IsChiefs(id, chiefsId) && !User.IsAdmin())
             {
                 return BadRequest();
             }

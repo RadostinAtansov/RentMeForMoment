@@ -1,4 +1,4 @@
-﻿namespace RentForMoment.Controllers
+﻿    namespace RentForMoment.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

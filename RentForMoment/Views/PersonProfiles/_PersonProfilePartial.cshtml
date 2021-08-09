@@ -10,7 +10,7 @@
                     <h5 class="card-title">@profile.Firstname @profile.Lastname @profile.Age</h5>
                     <p class="card-text">@profile.Skills</p>
                     <a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@profile.Id" class="btn btn-primary">Details</a>
-                    @if (ViewBag.AllowPersonProfileEdit == true)
+                    @if (ViewBag.AllowPersonProfileEdit == true || User.IsAdmin())
                     {
                         <a asp-controller="PersonProfiles" asp-action="Edit" asp-route-id="@profile.Id" class="btn btn-warning">Edit</a>
                         <a asp-controller="PersonProfiles" asp-action="Delete" asp-route-id="@profile.Id" class="btn btn-danger">Delete</a>

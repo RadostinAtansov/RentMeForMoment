@@ -1,5 +1,4 @@
-﻿
-namespace RentForMoment.Services.PersonProfiles
+﻿namespace RentForMoment.Services.PersonProfiles.Models
 {
     public class PersonProfileDetailsServiceModel : PersonProfilesServicesModel
     {

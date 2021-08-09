@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace RentForMoment.Services.PersonProfiles
+﻿namespace RentForMoment.Services.PersonProfiles.Models
 {
 
-
+    using System.Collections.Generic;
 
     public class PersonProfilesQueryServiceModel
     {
