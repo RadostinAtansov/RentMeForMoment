@@ -1,0 +1,72 @@
+﻿@model AllPersonsProfileQueryModel
+
+
+<form method="get">
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="TypeOfWork"></label>
+            <select asp-for="TypeOfWork" class="form-control">
+                <option value="">All</option>
+
+                @foreach (var TypeOfWork in Model.TypeOfWorks)
+                {
+                    <option value="@TypeOfWork">@TypeOfWork</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control mb-5" placeholder="Skills you have...">
+        </div>
+
+        <div class="form-group col-md-3">
+            <label asp-for="Sorting"></label>
+            <select asp-for="Sorting" class="form-control">
+                <option value="0" selected>Date Registered</option>
+                <option value="1">Ages</option>
+                <option value="2">Skills</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-3">
+            <input type="submit" class="btn btn-primary d-none" placeholder="Search...">
+        </div>
+    </div>
+</form>
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalProfiles / AllPersonsProfileQueryModel.ProfilesPerPage);
+}
+<div class="row mb-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)" 
+           asp-controller="PersonProfiles" 
+           asp-action="All" 
+           asp-route-currentPage="@previousPage"
+           asp-route-TypeOfWork="@Model.TypeOfWork"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@Model.Sorting"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)" asp-controller="PersonProfiles" 
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-TypeOfWork="@Model.TypeOfWork"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@Model.Sorting">>></a>
+    </div>
+</div>
+
+
+@if (!@Model.Profiles.Any())
+{
+    <h2 class="text-center">No profiles found!</h2>
+}
+
+<partial name="_PersonProfilePartial" model="@Model.Profiles"/>
