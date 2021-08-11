@@ -12,7 +12,7 @@
 
         public MappingProfile()
         {
-            this.CreateMap<PersonProfile, ProfileIndexViewModel>();
+            this.CreateMap<PersonProfile, LatestPersonProfileServiceModel>();
             this.CreateMap<PersonProfileDetailsServiceModel, PersonProfileFormModel>();
 
             this.CreateMap<PersonProfile, PersonProfileDetailsServiceModel>()

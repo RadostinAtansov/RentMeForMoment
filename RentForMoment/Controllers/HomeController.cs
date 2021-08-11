@@ -1,42 +1,30 @@
 ﻿namespace RentForMoment.Controllers
 {
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.AspNetCore.Mvc;
-    using RentForMoment.Data;
-    using RentForMoment.Models;
     using RentForMoment.Models.Home;
+    using RentForMoment.Services.PersonProfiles;
     using RentForMoment.Services.Statistics;
-    using System.Diagnostics;
     using System.Linq;
 
     public class HomeController : Controller
     {
-        private readonly RentForMomentDbContext data;
+        private readonly IPersonProfilesService personProfiles;
         private readonly IStatisticsService statistics;
-        private readonly IConfigurationProvider mapper;
 
-        public HomeController(IStatisticsService statistics, 
-            RentForMomentDbContext data,
-            IMapper mapper)
+        public HomeController(
+            IStatisticsService statistics,
+            IPersonProfilesService personProfiles)
         {
-            this.mapper = mapper.ConfigurationProvider;
-            this.statistics = statistics;   
-            this.data = data;
+            this.statistics = statistics;
+            this.personProfiles = personProfiles;
         }
 
         public IActionResult Index()
         {
 
-            var TotalProfiles = this.data.PersonProfiles.Count();
-            var TotalUsers = this.data.Users.Count();
-
-            var profiles = data
-                 .PersonProfiles
-                 .OrderByDescending(p => p.Id)
-                 .ProjectTo<ProfileIndexViewModel>(this.mapper)
-                 .Take(3)
-                 .ToList();
+            var latestProfiles = this.personProfiles
+                .Latest()
+                .ToList();
 
             var totalStatistics = this.statistics.Total();
 
@@ -44,14 +32,13 @@
             {
                 TotalProfiles = totalStatistics.TotalProfiles,
                 TotalUsers = totalStatistics.TotalUsers,
-                Profiles = profiles
+                Profiles = latestProfiles
             });
 
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        
+        public IActionResult Error() => View();
         
     }
 }

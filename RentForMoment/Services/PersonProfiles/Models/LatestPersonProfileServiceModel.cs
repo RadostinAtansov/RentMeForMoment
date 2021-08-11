@@ -1,9 +1,9 @@
-﻿namespace RentForMoment.Models.Home
+﻿namespace RentForMoment.Services.PersonProfiles.Models
 {
 
 
 
-    public class ProfileIndexViewModel
+    public class LatestPersonProfileServiceModel
     {
         public int Id { get; set; }
 

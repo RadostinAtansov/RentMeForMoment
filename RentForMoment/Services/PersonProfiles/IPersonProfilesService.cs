@@ -13,6 +13,8 @@
             int currentPage,
             int profilesPerPage);
 
+        IEnumerable<LatestPersonProfileServiceModel> Latest();
+
         PersonProfileDetailsServiceModel Details(int profileId);
             
         int Create(

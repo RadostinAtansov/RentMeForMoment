@@ -66,6 +66,14 @@
             };
         }
 
+        public IEnumerable<LatestPersonProfileServiceModel> Latest()
+              => data
+                 .PersonProfiles
+                 .OrderByDescending(p => p.Id)
+                 .ProjectTo<LatestPersonProfileServiceModel>(this.mapper)
+                 .Take(3)
+                 .ToList();
+
         public PersonProfileDetailsServiceModel Details(int id)
             => this.data
             .PersonProfiles
@@ -170,7 +178,5 @@
 
             return true;
         }
-
-
     }
 }
