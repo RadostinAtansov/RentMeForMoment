@@ -29,27 +29,27 @@
          @if (firstProfile != null)
          {
              <div class="carousel-item active">
-                 <img class="d-block w-100" src="@firstProfile.Image" alt="@firstProfile.Firstname">
+                 <img class="d-block w-100" src="@firstProfile.PersonImage" alt="@firstProfile.Firstname">
                  <div class="carousel-caption d-none d-md-block">
-                     <h5><a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@firstProfile">@firstProfile.Firstname @firstProfile.Lastname @firstProfile.Age @firstProfile.City @firstProfile.Skills</a></h5>
+                     <h5><a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@firstProfile.Id">@firstProfile.Firstname @firstProfile.Lastname @firstProfile.Years @firstProfile.City @firstProfile.Skills</a></h5>
                  </div>
              </div>
          }
          @if (secondProfile != null)
          {
              <div class="carousel-item">
-                 <img class="d-block w-100" src="@secondProfile.Image" alt="@secondProfile.Firstname">
+                 <img class="d-block w-100" src="@secondProfile.PersonImage" alt="@secondProfile.Firstname">
                  <div class="carousel-caption d-none d-md-block">
-                     <h5><a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@secondProfile">@secondProfile.Firstname @secondProfile.Lastname @secondProfile.Age @secondProfile.City @secondProfile.Skills</a></h5>
+                     <h5><a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@secondProfile.Id">@secondProfile.Firstname @secondProfile.Lastname @secondProfile.Years @secondProfile.City @secondProfile.Skills</a></h5>
                  </div>
              </div>
          }
          @if (thirdProfile != null)
          {
              <div class="carousel-item">
-                 <img class="d-block w-100" src="@thirdProfile.Image" alt="@thirdProfile.Firstname">
+                 <img class="d-block w-100" src="@thirdProfile.PersonImage" alt="@thirdProfile.Firstname">
                  <div class="carousel-caption d-none d-md-block">
-                     <h5><a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@thirdProfile">@thirdProfile.Firstname @thirdProfile.Lastname @secondProfile.Age @thirdProfile.City @thirdProfile.Skills</a></h5>
+                     <h5><a asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@thirdProfile.Id">@thirdProfile.Firstname @thirdProfile.Lastname @secondProfile.Years @thirdProfile.City @thirdProfile.Skills</a></h5>
                  </div>
              </div>
          }

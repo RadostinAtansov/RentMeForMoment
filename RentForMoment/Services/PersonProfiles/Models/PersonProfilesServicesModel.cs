@@ -13,7 +13,7 @@
 
         public string Lastname { get; init; }
 
-        public int Age { get; init; }
+        public int Years { get; init; }
 
         public string City { get; init; }
 

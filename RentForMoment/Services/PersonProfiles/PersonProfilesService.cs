@@ -129,7 +129,7 @@
                 Id = p.Id,
                 Firstname = p.FirstName,
                 Lastname = p.LastName,
-                Age = p.Years,
+                Years = p.Years,
                 City = p.City,
                 Skills = p.Skills,
                 PersonImage = p.PersonImage,

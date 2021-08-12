@@ -2,11 +2,7 @@
 {
 
     using Microsoft.AspNetCore.Mvc;
-    using RentForMoment.Data;
-    using System.Linq;
-    using System.Collections;
     using RentForMoment.Models.Api.PersonProfiles;
-    using RentForMoment.Models;
     using RentForMoment.Services.PersonProfiles;
     using RentForMoment.Services.PersonProfiles.Models;
 
