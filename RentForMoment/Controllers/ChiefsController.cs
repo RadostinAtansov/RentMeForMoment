@@ -8,6 +8,8 @@
     using RentForMoment.Models.Chiefs;
     using System.Linq;
 
+    using static WebConstants;
+
     public class ChiefsController : Controller
     {
         private readonly RentForMomentDbContext data;
@@ -50,6 +52,8 @@
 
             this.data.Chiefs.Add(chiefData);
             this.data.SaveChanges();
+
+            TempData[GlobalMessageKey] = "You are the BIG BOSS";
 
             return RedirectToAction("All", "PersonProfiles");
 

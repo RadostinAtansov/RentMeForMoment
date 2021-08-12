@@ -4,6 +4,6 @@
     {
 
         public const string AdministratorRoleName = "Administrator";
-
+        public const string GlobalMessageKey = "GlobalMessage";
     }
 }

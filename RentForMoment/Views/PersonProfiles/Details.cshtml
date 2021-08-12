@@ -1,0 +1,13 @@
+﻿@model PersonProfileDetailsServiceModel
+
+
+<div class="card md-3">
+    <img src="@Model.PersonImage" class="text-center" alt="">
+    <div class="card-body text-center">
+        <h5 class="card-title">@Model.Firstname @Model.Lastname</h5>
+        <p class="card-text">@Model.Years</p>
+        <p class="card-text">@Model.Skills</p>
+        <p class="card-text">@Model.Description</p>
+        <a asp-controller="RentMe" asp-action="HireMe" asp-route-id="" class="btn btn-success">Hire Me!</a>
+    </div>
+</div>

@@ -7,6 +7,7 @@
     using RentForMoment.Models.PersonProfiles;
     using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.PersonProfiles;
+    using static WebConstants;
 
     public class PersonProfilesController : Controller
     {
@@ -28,6 +29,8 @@
         public IActionResult Delete(int id)
         {
             this.profiles.Delete(id);
+
+            TempData[GlobalMessageKey] = "Successful Delete Profile";
 
             return RedirectToAction(nameof(All));
         }
@@ -125,6 +128,8 @@
                 profile.TypeOfWork,
                 chiefsId);
 
+            TempData[GlobalMessageKey] = "Successful Add Profile";
+
             return RedirectToAction(nameof(All));
         }
 
@@ -194,6 +199,8 @@
                 profile.City,
                 profile.Description,
                 profile.TypeOfWork);
+
+            TempData[GlobalMessageKey] = "Successful Edit Form";
 
             return RedirectToAction(nameof(All));
 

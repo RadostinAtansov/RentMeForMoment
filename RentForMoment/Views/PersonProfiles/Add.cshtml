@@ -1,7 +1,9 @@
 ﻿@model PersonProfileFormModel
 
-@{ 
-    ViewData["Tittle"] = "Add Profile";
-}
+@{ ViewData["Tittle"] = "Add Profile"; }
 
 <partial name="_PersonProfileFormPartial" model="@Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
