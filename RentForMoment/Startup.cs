@@ -43,6 +43,7 @@ namespace RentForMoment
                 .AddEntityFrameworkStores<RentForMomentDbContext>();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddMemoryCache();
 
             services
                 .AddControllersWithViews(option => 

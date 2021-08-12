@@ -1,6 +1,5 @@
 ﻿namespace RentForMoment.Data.Models
 {
-
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -18,9 +17,8 @@
         [MaxLength(MaxPhoneLength)]
         public string PhoneNumber { get; set; }
 
-        public string UserId { get; set; }
-
-        public User User { get; set; }
+        [Required]
+        public string UserId { get; set; }  
 
         public IEnumerable<PersonProfile> PersonProfiles { get; init; } = new List<PersonProfile>();
     }

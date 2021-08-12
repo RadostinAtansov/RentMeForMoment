@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using RentForMoment.Data.Models;
+    using System;
 
     public class RentForMomentDbContext : IdentityDbContext<User>
     {
@@ -39,5 +40,9 @@
             base.OnModelCreating(builder);
         }
 
+        internal object FirstOfDefault(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

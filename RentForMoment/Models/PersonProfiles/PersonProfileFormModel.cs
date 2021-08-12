@@ -39,6 +39,8 @@
         [Display(Name = "What Work You Can Do")]
         public int CategoryId { get; init; }
 
+        public int ChiefId { get; init; }
+
         public string TypeOfWork { get; init; }
 
         public IEnumerable<PersonServiceCategoryModel> CategoriesPerson { get; set; }

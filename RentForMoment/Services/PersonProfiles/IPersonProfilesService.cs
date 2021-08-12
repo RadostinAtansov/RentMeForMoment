@@ -1,5 +1,6 @@
 ﻿namespace RentForMoment.Services.PersonProfiles
 {
+    using RentForMoment.Data.Models;
     using RentForMoment.Models;
     using RentForMoment.Services.PersonProfiles.Models;
     using System.Collections.Generic;
@@ -16,7 +17,9 @@
         IEnumerable<LatestPersonProfileServiceModel> Latest();
 
         PersonProfileDetailsServiceModel Details(int profileId);
-            
+
+        bool Delete(int id);
+
         int Create(
                 string firstname,
                 string lastname,
@@ -26,8 +29,8 @@
                 string city,
                 string description,
                 int categoryId,
-                int chiefsId,
-                string typeOfWork);
+                string typeOfWork,
+                int chiefsId);
 
         bool Edit(
                int profileId,

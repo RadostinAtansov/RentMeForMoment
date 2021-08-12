@@ -15,7 +15,8 @@
         private readonly RentForMomentDbContext data;
         private readonly IConfigurationProvider mapper;
 
-        public PersonProfilesService(RentForMomentDbContext data, 
+        public PersonProfilesService(
+            RentForMomentDbContext data, 
             IMapper mapper)
         {
             this.mapper = mapper.ConfigurationProvider;
@@ -64,6 +65,16 @@
                 CurrentPage = currentPage,
                 Profiles = profiles
             };
+        }
+
+        public bool Delete(int id)
+        {
+            var profile = this.data.PersonProfiles.Find(id);
+
+            data.Remove(profile);
+            data.SaveChanges();
+
+            return true;
         }
 
         public IEnumerable<LatestPersonProfileServiceModel> Latest()
@@ -121,14 +132,15 @@
                 Age = p.Years,
                 City = p.City,
                 Skills = p.Skills,
-                Image = p.PersonImage,
+                PersonImage = p.PersonImage,
                 Description = p.Description,
                 TypeOfWorkName = p.TypeOfWork,
-                Category = p.Category.Name
+                Category = p.Category.Name,
+                
             })
                 .ToList();
 
-        public int Create(string firstname, string lastname, int years, string personImage, string skills, string city, string description, int categoryId, int chiefsId, string typeOfWork)
+        public int Create(string firstname, string lastname, int years, string personImage, string skills, string city, string description, int categoryId, string typeOfWork, int chiefsId)
         {
             var profileData = new PersonProfile
             {
@@ -140,8 +152,8 @@
                 City = city,
                 Description = description,
                 CategoryId = categoryId,
-                ChiefId = chiefsId,
-                TypeOfWork = typeOfWork
+                TypeOfWork = typeOfWork,
+                ChiefId = chiefsId
             };
 
             this.data.PersonProfiles.Add(profileData);

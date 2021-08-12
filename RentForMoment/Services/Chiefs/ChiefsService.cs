@@ -18,7 +18,7 @@
              .Select(c => c.Id)
              .FirstOrDefault();
 
-            public bool IsChief(string userId)
+        public bool IsChief(string userId)
         => this.data
             .Chiefs
             .Any(c => c.UserId == userId);

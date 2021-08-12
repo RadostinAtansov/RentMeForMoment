@@ -3,7 +3,6 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using RentForMoment.Data;
     using RentForMoment.Infrastructure;
     using RentForMoment.Models.PersonProfiles;
     using RentForMoment.Services.Chiefs;
@@ -26,6 +25,13 @@
             this.chiefs = chiefs;
         }
 
+        public IActionResult Delete(int id)
+        {
+            this.profiles.Delete(id);
+
+            return RedirectToAction(nameof(All));
+        }
+
         public IActionResult All([FromQuery] AllPersonsProfileQueryModel query)
         {
 
@@ -46,6 +52,12 @@
             return View(query);
         }
 
+        public IActionResult Details(int id)
+        {
+            var details = this.profiles.Details(id);
+
+            return View(details);
+        }
 
         [Authorize]
         public IActionResult Mine()
@@ -59,11 +71,11 @@
         [Authorize]
         public IActionResult Add()
         {
-            //if (!this.chiefs.IsChief(this.User.GetId()))
-            //{
+            if (!this.chiefs.IsChief(this.User.GetId()))
+            {
 
-            //    return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
-            //}
+                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+            }
 
             return View(new PersonProfileFormModel
             {
@@ -81,12 +93,12 @@
 
             var chiefsId = this.chiefs.GetIdByUser(this.User.GetId());
 
-            //if (chiefsId == 0)
-            //{
+            if (chiefsId == 0)
+            {
 
-            //    return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
+                return RedirectToAction(nameof(ChiefsController.Create), "Chiefs");
 
-            //}
+            }
 
             if (!this.profiles.CategoryExists(profile.CategoryId))
             {
@@ -101,7 +113,8 @@
                 return View(profile);
             }
 
-            this.profiles.Create(profile.Firstname,
+            var personProfileId = this.profiles.Create(
+                profile.Firstname,
                 profile.Lastname,
                 profile.Years,
                 profile.PersonImage,
@@ -109,8 +122,8 @@
                 profile.City,
                 profile.Description,
                 profile.CategoryId,
-                profile.CategoryId,
-                profile.TypeOfWork);
+                profile.TypeOfWork,
+                chiefsId);
 
             return RedirectToAction(nameof(All));
         }
