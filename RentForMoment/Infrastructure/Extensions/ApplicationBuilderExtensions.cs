@@ -1,4 +1,4 @@
-﻿namespace RentForMoment.Infrastructure
+﻿namespace RentForMoment.Infrastructure.Extensions
 {
 
     using Microsoft.AspNetCore.Builder;

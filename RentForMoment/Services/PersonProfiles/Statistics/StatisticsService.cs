@@ -1,10 +1,8 @@
-﻿using RentForMoment.Data;
-using System.Linq;
-
-namespace RentForMoment.Services.Statistics
+﻿namespace RentForMoment.Services.Statistics
 {
 
-
+    using RentForMoment.Data;
+    using System.Linq;
 
     public class StatisticsService : IStatisticsService
     {
@@ -16,7 +14,7 @@ namespace RentForMoment.Services.Statistics
 
         public StatisticsServiceModel Total()
         {
-            var totalProfiles = this.data.PersonProfiles.Count();
+            var totalProfiles = this.data.PersonProfiles.Count(p => p.IsPublic);
             var totalUsers = this.data.Users.Count();
 
             return new StatisticsServiceModel

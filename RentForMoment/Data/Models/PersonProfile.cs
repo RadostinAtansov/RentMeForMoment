@@ -31,6 +31,8 @@
 
         public string PersonImage { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public bool IsOnline { get; set; }
 
         [Required]

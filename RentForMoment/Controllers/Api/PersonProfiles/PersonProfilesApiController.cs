@@ -6,8 +6,6 @@
     using RentForMoment.Services.PersonProfiles;
     using RentForMoment.Services.PersonProfiles.Models;
 
-    //using RentForMoment.Models.PersonProfiles;
-
     [ApiController]
     [Route("api/rents")]
 

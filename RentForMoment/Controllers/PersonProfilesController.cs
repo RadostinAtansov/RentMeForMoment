@@ -3,10 +3,11 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using RentForMoment.Infrastructure;
+    using RentForMoment.Infrastructure.Extensions;
     using RentForMoment.Models.PersonProfiles;
     using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.PersonProfiles;
+    using System;
     using static WebConstants;
 
     public class PersonProfilesController : Controller
@@ -57,9 +58,9 @@
 
         public IActionResult Details(int id)
         {
-            var details = this.profiles.Details(id);
+            var profile = this.profiles.Details(id);
 
-            return View(details);
+            return View(profile);
         }
 
         [Authorize]
@@ -130,7 +131,7 @@
 
             TempData[GlobalMessageKey] = "Successful Add Profile";
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Mine));
         }
 
         [Authorize]
@@ -198,7 +199,8 @@
                 profile.Skills,
                 profile.City,
                 profile.Description,
-                profile.TypeOfWork);
+                profile.TypeOfWork,
+                this.User.IsAdmin());
 
             TempData[GlobalMessageKey] = "Successful Edit Form";
 

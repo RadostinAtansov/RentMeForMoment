@@ -24,13 +24,16 @@
         }
 
         public PersonProfilesQueryServiceModel All(
-            string typeOfWork, 
-            string searchTerm,  
-            ProfileSorting sorting,
-            int currentPage,
-            int profilesPerPage)
+            string typeOfWork = null, 
+            string searchTerm = null,  
+            ProfileSorting sorting = ProfileSorting.DateRegistered,
+            int currentPage = 1,
+            int profilesPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
-            var profilesQuery = this.data.PersonProfiles.AsQueryable();
+            var profilesQuery = this.data
+                .PersonProfiles
+                .Where(p => publicOnly ? p.IsPublic : true);
 
             if (!string.IsNullOrWhiteSpace(typeOfWork))
             {
@@ -80,6 +83,7 @@
         public IEnumerable<LatestPersonProfileServiceModel> Latest()
               => data
                  .PersonProfiles
+                 .Where(p => p.IsPublic)
                  .OrderByDescending(p => p.Id)
                  .ProjectTo<LatestPersonProfileServiceModel>(this.mapper)
                  .Take(3)
@@ -102,6 +106,16 @@
                    .PersonProfiles
                    .Any(p => p.Id == profileId && p.ChiefId == chiefId);
 
+
+        public void Approvell(int personProfileId)
+        {
+            var personProfile = this.data.PersonProfiles.Find(personProfileId);
+
+            personProfile.IsPublic = !personProfile.IsPublic;
+
+            this.data.SaveChanges();
+        }
+
         public IEnumerable<string> AllProfilesTypeOfWOrk()
              => this.data
                 .PersonProfiles
@@ -112,35 +126,28 @@
         public IEnumerable<PersonServiceCategoryModel> AllPersonProfilesCategory()
          => this.data
            .Categories
-           .Select(p => new PersonServiceCategoryModel
-           {
-               Id = p.Id,
-               Name = p.Name
-           })
+           .ProjectTo<PersonServiceCategoryModel>(this.mapper)
            .ToList();
 
 
      
 
-        private static IEnumerable<PersonProfilesServicesModel> GetProfiles(IQueryable<PersonProfile> personProfileQuery)
+        private IEnumerable<PersonProfilesServicesModel> GetProfiles(IQueryable<PersonProfile> personProfileQuery)
             => personProfileQuery
-            .Select(p => new PersonProfilesServicesModel
-            {
-                Id = p.Id,
-                Firstname = p.FirstName,
-                Lastname = p.LastName,
-                Years = p.Years,
-                City = p.City,
-                Skills = p.Skills,
-                PersonImage = p.PersonImage,
-                Description = p.Description,
-                TypeOfWorkName = p.TypeOfWork,
-                Category = p.Category.Name,
-                
-            })
+            .ProjectTo<PersonProfilesServicesModel>(this.mapper)
                 .ToList();
 
-        public int Create(string firstname, string lastname, int years, string personImage, string skills, string city, string description, int categoryId, string typeOfWork, int chiefsId)
+        public int Create(
+            string firstname, 
+            string lastname, 
+            int years, 
+            string personImage, 
+            string skills, 
+            string city, 
+            string description, 
+            int categoryId, 
+            string typeOfWork, 
+            int chiefsId)
         {
             var profileData = new PersonProfile
             {
@@ -153,7 +160,8 @@
                 Description = description,
                 CategoryId = categoryId,
                 TypeOfWork = typeOfWork,
-                ChiefId = chiefsId
+                ChiefId = chiefsId,
+                IsPublic = false
             };
 
             this.data.PersonProfiles.Add(profileData);
@@ -167,7 +175,17 @@
             .Categories
             .Any(p => p.Id == categoryId);
 
-        public bool Edit(int profileId, string firstname, string lastname, int years, string personImage, string skills, string city, string description, string typeOfWork)
+        public bool Edit(
+            int profileId, 
+            string firstname, 
+            string lastname, 
+            int years, 
+            string personImage, 
+            string skills, 
+            string city, 
+            string description, 
+            string typeOfWork,
+            bool isPublic)
         {
 
             var profileData = this.data.PersonProfiles.Find(profileId);
@@ -185,7 +203,8 @@
             profileData.City = city;
             profileData.Description = description;
             profileData.TypeOfWork = typeOfWork;
-            
+            profileData.IsPublic = isPublic;
+
             this.data.SaveChanges();
 
             return true;

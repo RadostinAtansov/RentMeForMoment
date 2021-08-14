@@ -1,0 +1,126 @@
+﻿@model IEnumerable<PersonProfilesServicesModel>
+
+@{
+    ViewBag.Title = "You are Admin";
+}
+
+<h1>All Cars</h1>
+
+<table class="table table-success">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Years</th>
+            <th scope="col">City</th>
+            <th scope="col">Skills</th>
+            <th scope="col">Global Buttons</th>
+            <th scope="col">Approvell</th>
+        </tr>
+    </thead>    
+    <tbody>
+        @foreach (var profile in Model)
+        {
+        <tr>
+            <td scope="col">@profile.Firstname</td>
+            <td scope="col">@profile.Lastname</td>
+            <td scope="col">@profile.Years</td>
+            <td scope="col">@profile.City</td>
+            <td scope="col">@profile.Skills</td>
+            <td scope="col">@(profile.IsPublic ? "Yes" : "No")</td>
+            <td>
+                <a asp-area="" asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@profile.Id" class="btn btnDetails">Details</a>
+                <a asp-area="" asp-controller="PersonProfiles" asp-action="Edit" asp-route-id="@profile.Id" class="btn btnEdit">Edit</a>
+                <a asp-area="" asp-controller="PersonProfiles" asp-action="Delete" asp-route-id="@profile.Id" class="btn btnDelete">Delete</a>
+                <a asp-area="Admin" asp-controller="PersonProfiles" asp-action="Approvell" asp-route-id="@profile.Id" class="btn btnApprove">@(profile.IsPublic ? "Hide" : "Show")</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .btn {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+    .btnApprove {
+        background-color: white;
+        color: black;
+        border: 2px solid yellow;
+    }
+
+    .btnApprove:hover {
+        background-color: yellow; /* Yellow */
+        color: white;
+        padding: 12px 28px;
+    }
+
+    .btnDetails {
+        background-color: white;
+        color: black;
+        border: 2px solid green;
+    }
+
+    .btnDetails:hover {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        padding: 12px 28px;
+    }
+
+    .btnDelete {
+        background-color: white;
+        color: black;
+        border: 2px solid red;
+    }
+
+    .btnDelete:hover {
+        background-color: red; /* Red */
+        color: white;
+        padding: 12px 28px;
+    }
+
+    .btnEdit {
+        background-color: white; /* Blue */
+        color: black;
+        border: 2px solid blue;
+    }
+
+    .btnEdit:hover {
+        background-color: deepskyblue; /* Blue */
+        color: white;
+        padding: 12px 28px;
+    }
+
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        text-align: left;
+        padding: 8px;
+        height: 50px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+    th {
+        background-color: #04AA6D;
+        color: white;
+    }
+</style>

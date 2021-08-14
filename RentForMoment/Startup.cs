@@ -10,11 +10,12 @@ namespace RentForMoment
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using RentForMoment.Data;
-    using RentForMoment.Infrastructure;
+    using RentForMoment.Infrastructure.Extensions;
     using RentForMoment.Services.PersonProfiles;
     using RentForMoment.Services.Chiefs;
     using RentForMoment.Services.Statistics;
     using RentForMoment.Data.Models;
+    using CarRentingSystem.Infrastructure.Extensions;
 
     public class Startup
     {
@@ -78,6 +79,7 @@ namespace RentForMoment
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapDefaultAreaRoute();
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });

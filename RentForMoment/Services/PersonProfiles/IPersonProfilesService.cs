@@ -8,17 +8,20 @@
     public interface IPersonProfilesService
     {
         PersonProfilesQueryServiceModel All(
-            string typeOfWork,
-            string searchTerm,
-            ProfileSorting sorting,
-            int currentPage,
-            int profilesPerPage);
+            string typeOfWork = null,
+            string searchTerm = null,
+            ProfileSorting sorting = ProfileSorting.DateRegistered,
+            int currentPage = 1,
+            int profilesPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         IEnumerable<LatestPersonProfileServiceModel> Latest();
 
         PersonProfileDetailsServiceModel Details(int profileId);
 
         bool Delete(int id);
+
+        void Approvell(int personProfileId);
 
         int Create(
                 string firstname,
@@ -41,7 +44,8 @@
                string skills,
                string city,
                string description,
-               string typeOfWork);
+               string typeOfWork,
+               bool isPublic);
 
         bool IsChiefs(int profileId, int chiefId);
 

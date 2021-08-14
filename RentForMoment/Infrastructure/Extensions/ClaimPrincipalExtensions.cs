@@ -1,5 +1,5 @@
 ﻿
-namespace RentForMoment.Infrastructure
+namespace RentForMoment.Infrastructure.Extensions
 {
     using System.Security.Claims;
     using static WebConstants;

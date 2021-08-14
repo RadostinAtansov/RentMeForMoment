@@ -19,9 +19,11 @@
 
         public string Skills { get; init; }
 
-        public string Category { get; init; }
+        public string CategoryName { get; init; }
 
         public string TypeOfWorkName { get; init; }
+
+        public bool IsPublic { get; init; }
 
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentForMoment", "RentForMoment\RentForMoment.csproj", "{10850D68-5682-469B-A17F-D89F5AFFFD0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentForMoment.Tests", "RentForMoment.Tests\RentForMoment.Tests.csproj", "{7818DB13-33CA-46F4-88C7-6267FCC6981A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentForMoment.Tests", "RentForMoment.Tests\RentForMoment.Tests.csproj", "{7818DB13-33CA-46F4-88C7-6267FCC6981A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

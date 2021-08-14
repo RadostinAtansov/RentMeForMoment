@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Data;
     using RentForMoment.Data.Models;
-    using RentForMoment.Infrastructure;
+    using RentForMoment.Infrastructure.Extensions;
     using RentForMoment.Models.Chiefs;
     using System.Linq;
 
