@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentForMoment", "RentForMom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentForMoment.Tests", "RentForMoment.Tests\RentForMoment.Tests.csproj", "{7818DB13-33CA-46F4-88C7-6267FCC6981A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR", "SignalR\SignalR.csproj", "{C898AE28-4E96-4ADE-A7DB-64A9D4AA2514}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7818DB13-33CA-46F4-88C7-6267FCC6981A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7818DB13-33CA-46F4-88C7-6267FCC6981A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7818DB13-33CA-46F4-88C7-6267FCC6981A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C898AE28-4E96-4ADE-A7DB-64A9D4AA2514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C898AE28-4E96-4ADE-A7DB-64A9D4AA2514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C898AE28-4E96-4ADE-A7DB-64A9D4AA2514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C898AE28-4E96-4ADE-A7DB-64A9D4AA2514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

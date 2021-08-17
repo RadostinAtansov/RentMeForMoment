@@ -16,6 +16,7 @@ namespace RentForMoment
     using RentForMoment.Services.Statistics;
     using RentForMoment.Data.Models;
     using CarRentingSystem.Infrastructure.Extensions;
+    using RentForMoment.Controllers;
 
     public class Startup
     {
@@ -80,6 +81,16 @@ namespace RentForMoment
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapDefaultAreaRoute();
+
+                    endpoints.MapControllerRoute(
+                      name: "PersoProfiles Details",
+                      pattern: "/PersonProfiles/Details/{id}/{information}",
+                      defaults: new
+                      {
+                          controller = typeof(PersonProfilesController).GetControllerName(),
+                          action = nameof(PersonProfilesController.Details)
+                      });
+
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });

@@ -29,10 +29,10 @@
             <td scope="col">@profile.Skills</td>
             <td scope="col">@(profile.IsPublic ? "Yes" : "No")</td>
             <td>
-                <a asp-area="" asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@profile.Id" class="btn btnDetails">Details</a>
-                <a asp-area="" asp-controller="PersonProfiles" asp-action="Edit" asp-route-id="@profile.Id" class="btn btnEdit">Edit</a>
-                <a asp-area="" asp-controller="PersonProfiles" asp-action="Delete" asp-route-id="@profile.Id" class="btn btnDelete">Delete</a>
-                <a asp-area="Admin" asp-controller="PersonProfiles" asp-action="Approvell" asp-route-id="@profile.Id" class="btn btnApprove">@(profile.IsPublic ? "Hide" : "Show")</a>
+                <a asp-area="" asp-controller="PersonProfiles" asp-action="Details" asp-route-id="@profile.Id" class="btn1 btnDetails">Details</a>
+                <a asp-area="" asp-controller="PersonProfiles" asp-action="Edit" asp-route-id="@profile.Id" class="btn1 btnEdit">Edit</a>
+                <a asp-area="" asp-controller="PersonProfiles" asp-action="Delete" asp-route-id="@profile.Id" class="btn1 btnDelete">Delete</a>
+                <a asp-area="Admin" asp-controller="PersonProfiles" asp-action="Approvell" asp-route-id="@profile.Id" class="btn1 btnApprove">@(profile.IsPublic ? "Hide" : "Show")</a>
             </td>
         </tr>
         }
@@ -40,7 +40,7 @@
 </table>
 
 <style>
-    .btn {
+    .btn1 {
         background-color: #4CAF50; /* Green */
         border: none;
         color: white;

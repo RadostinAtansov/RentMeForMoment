@@ -1,0 +1,58 @@
+﻿@using RentForMoment.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using RentForMoment.Services.Chiefs
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject IChiefsService Chiefs
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+
+        var userId = User.GetId();
+        var userIdChief = Chiefs.IsChief(userId);
+        var userIsAdmin = User.IsAdmin();
+
+        @if (userId != null && !userIdChief)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Mine">My Profiles</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Chiefs" asp-action="Create">Chief</a>
+            </li>
+        }
+        else if(userIsAdmin)
+        {
+              <h6 class="alert alert-warning">You are Admin</h6>
+             <li class="nav-item">
+                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="PersonProfiles"asp-action="All">Administrator</a>
+             </li>
+        }
+        else if (userId != null && userIdChief)
+        {
+               <h6 class="alert alert-warning">You are chief</h6>
+              <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Mine">My Profiles</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

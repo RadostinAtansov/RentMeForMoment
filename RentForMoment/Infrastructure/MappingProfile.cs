@@ -12,7 +12,7 @@
 
         public MappingProfile()
         {
-            this.CreateMap<Category, PersonProfilesServicesModel>();
+            this.CreateMap<Category, PersonServiceCategoryModel>();
 
             this.CreateMap<PersonProfile, PersonProfilesServicesModel>()
                 .ForMember(p => p.CategoryName, cfg => cfg.MapFrom(p => p.Category.Name));

@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using RentForMoment.Services.PersonProfiles;
 
+    //[Area("Ne6to si")]
     public class PersonProfilesController : AdminController
     {
 
@@ -16,7 +17,7 @@
         public IActionResult All() 
         {
            return View(this.personProfiles.All(publicOnly: false).Profiles);
-        } 
+        }
 
         public IActionResult Approvell(int id)
         {
@@ -24,5 +25,6 @@
 
             return RedirectToAction(nameof(All));
         }
+
     }
 }
