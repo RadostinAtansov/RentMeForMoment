@@ -48,13 +48,13 @@
 
             var profileTypeOfWork = this.profiles.AllProfilesTypeOfWOrk();
 
-
             query.TypeOfWorks = profileTypeOfWork;
             query.TotalProfiles = queryResult.TotalProfiles;
             query.Profiles = queryResult.Profiles;
 
             return View(query);
         }
+
 
         public IActionResult Details(int id)
         {
@@ -64,13 +64,18 @@
         }
 
         [Authorize]
+        public IActionResult Messages()
+        {
+            return View();
+        }
+
+        [Authorize]
         public IActionResult Mine()
         {
             var myProfile = this.profiles.ByUser(this.User.GetId());
 
             return View(myProfile);
         }
-
 
         [Authorize]
         public IActionResult Add()

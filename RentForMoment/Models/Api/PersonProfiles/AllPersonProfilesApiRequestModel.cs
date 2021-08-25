@@ -1,8 +1,6 @@
 ﻿namespace RentForMoment.Models.Api.PersonProfiles
 {
 
-    using System.Collections.Generic;
-
     public class AllPersonProfilesApiRequestModel
     {
 

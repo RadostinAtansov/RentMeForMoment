@@ -17,6 +17,8 @@ namespace RentForMoment
     using RentForMoment.Data.Models;
     using CarRentingSystem.Infrastructure.Extensions;
     using RentForMoment.Controllers;
+    using RentForMoment.SignalRHub;
+    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
@@ -27,6 +29,16 @@ namespace RentForMoment
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<CookiePolicyOptions>(option => 
+            {
+                option.CheckConsentNeeded = context => true;
+                option.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddSignalR();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddScoped<ChatHub>();
+            services.AddSingleton<ChatHub>();
 
             services
                 .AddDbContext<RentForMomentDbContext>(options =>
@@ -56,11 +68,14 @@ namespace RentForMoment
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IChiefsService, ChiefsService>();
             services.AddTransient<IPersonProfilesService, PersonProfilesService>();
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.PrepareDatabase();
+            
 
             if (env.IsDevelopment())
             {
@@ -72,6 +87,9 @@ namespace RentForMoment
                 app.UseExceptionHandler("/Home/Error")
                    .UseHsts();
             }
+
+            
+
             app
                 .UseHttpsRedirection()
                 .UseStaticFiles()
@@ -80,6 +98,9 @@ namespace RentForMoment
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+
+                    endpoints.MapHub<ChatHub>("/chatHub");
+
                     endpoints.MapDefaultAreaRoute();
 
                     endpoints.MapControllerRoute(
@@ -93,7 +114,11 @@ namespace RentForMoment
 
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
+
+                    
                 });
+
+            
         }
     }
 }

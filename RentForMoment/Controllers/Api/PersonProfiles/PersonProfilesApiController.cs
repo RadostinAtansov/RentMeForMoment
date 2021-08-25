@@ -17,8 +17,8 @@
         public PersonProfilesApiController(IPersonProfilesService personProfles)
             => this.personProfles = personProfles;
 
-        [HttpGet]
 
+        [HttpGet]
         public PersonProfilesQueryServiceModel All([FromQuery] AllPersonProfilesApiRequestModel query)
            =>  this.personProfles.All(
                 query.TypeOfWork,

@@ -1,5 +1,6 @@
 ﻿namespace RentForMoment.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using RentForMoment.Models.Home;
@@ -56,7 +57,6 @@
 
         }
 
-        
         public IActionResult Error() => View();
         
     }

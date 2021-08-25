@@ -19,22 +19,28 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Mine">My Profiles</a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Chiefs" asp-action="Create">Chief</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Messages">Chat with other</a>
+            </li>
         }
-        else if(userIsAdmin)
+        else if (userIsAdmin)
         {
-              <h6 class="alert alert-warning">You are Admin</h6>
-             <li class="nav-item">
-                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="PersonProfiles"asp-action="All">Administrator</a>
-             </li>
+            <h6 class="alert alert-warning">You are Admin</h6>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Admin" asp-controller="PersonProfiles" asp-action="All">Administrator</a>
+            </li>
         }
         else if (userId != null && userIdChief)
         {
-               <h6 class="alert alert-warning">You are chief</h6>
-              <li class="nav-item">
+            <h6 class="alert alert-warning">You are chief</h6>
+            <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Mine">My Profiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="PersonProfiles" asp-action="Messages"><h6>CHAT with ALL</h6></a>
             </li>
         }
         <li class="nav-item">

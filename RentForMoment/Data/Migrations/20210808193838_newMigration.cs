@@ -1,8 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
+﻿
 namespace RentForMoment.Data.Migrations
 {
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+
     public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

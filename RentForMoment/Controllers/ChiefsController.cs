@@ -53,7 +53,7 @@
             this.data.Chiefs.Add(chiefData);
             this.data.SaveChanges();
 
-            TempData[GlobalMessageKey] = "You are the BIG BOSS";
+            TempData[GlobalMessageKey] = "You are Chief";
 
             return RedirectToAction("All", "PersonProfiles");
 
